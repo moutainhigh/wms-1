@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  address: localhost
+logging:
+  level:
+    org:
+       springframework:
+           security: DEBUG
+    root: INFO
+spring:
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://yyt8812.gnway.cc:1344;databaseName=yytsy
+    username: sa
+    password: yyt@123
+mybatis:
+  mapper-locations: classpath:/META-INF/resources/mapper/*.xml
+  type-aliases-package: com.teeny.wms.web
