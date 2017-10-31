@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2017/10/19
  */
 @RestController
-@RequestMapping("/wms/sign")
+@RequestMapping("/sign")
 public class SignController {
 
     private static Logger sLogger = LoggerFactory.getLogger(SignController.class);
@@ -30,7 +30,7 @@ public class SignController {
         this.mService = service;
     }
 
-    @RequestMapping(value = "/in/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/in/{id}")
     public ResponseEntity<UserEntity> in(@PathVariable("id") int id) {
         sLogger.debug("enter");
         System.out.println("enter");

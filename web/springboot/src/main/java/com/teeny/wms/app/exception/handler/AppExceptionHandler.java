@@ -23,14 +23,13 @@ public class AppExceptionHandler {
 
     private static final Logger sLogger = LoggerFactory.getLogger(AppExceptionHandler.class);
 
-    private static final String MESSAGE_UNKNOWN_EXCEPTION = "未知错误,请联系开发人员.";
+    private static final String MESSAGE_UNKNOWN_EXCEPTION = "服务器内部错误.";
 
     private static final int CODE_UNKNOWN_EXCEPTION = 0x1f4;
     private static final int CODE_INNER_EXCEPTION = 0x1;
 
     @ExceptionHandler({Exception.class})
     @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
     public com.teeny.wms.app.model.ResponseEntity handleInnerException(Exception ex) {
         int code = CODE_UNKNOWN_EXCEPTION;
         if (ex instanceof InnerException) {

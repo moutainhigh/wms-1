@@ -23,8 +23,8 @@ import javax.sql.DataSource;
  * @see AuthorizationServerConfiguration
  * @since 2017/10/25
  */
-@Configuration
-@EnableAuthorizationServer
+//@Configuration
+//@EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     private static final String CLIENT_ID = "wms";

@@ -20,6 +20,17 @@ import java.util.List;
  */
 public class UserEntity implements UserDetails {
 
+    private String username;
+    private String password;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -38,23 +49,19 @@ public class UserEntity implements UserDetails {
         return "1";
     }
 
-    @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
-    @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
-    @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
-    @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @since 2017/10/19
  */
 
-@ResponseStatus(HttpStatus.OK)
 public class InnerException extends Exception {
 
     public InnerException(String message) {
