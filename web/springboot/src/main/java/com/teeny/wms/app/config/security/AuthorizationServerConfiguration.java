@@ -27,6 +27,8 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
+    private static final String CLIENT_ID = "wms";
+
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 30 * 24 * 60;  //a month
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 24 * 60;  //a month
 
@@ -74,7 +76,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        super.configure(security);
+        //允许表单认证
+        security.allowFormAuthenticationForClients();
     }
 
     /**
@@ -89,14 +92,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("wms")
-                .scopes("read", "write")
-                .authorities("PLATFORM")
+        clients.inMemory().withClient(CLIENT_ID)
+                .resourceIds(ResourceServerConfiguration.RESOURCE_ID)
                 .authorizedGrantTypes("password", "refresh_token")
-                .secret("secret")
-                .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
-                .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
+                .scopes("select")
+                .authorities("client")
+                .secret("secret");
     }
 
 }

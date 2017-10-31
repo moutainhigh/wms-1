@@ -1,5 +1,6 @@
 package com.teeny.wms.web.service.impl;
 
+import com.teeny.wms.web.model.UserEntity;
 import com.teeny.wms.web.service.UserService;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        return new UserEntity();
     }
 }
