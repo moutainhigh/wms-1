@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teeny.wms.core.repository.StockAreaRepository">
+
+
+    <select id="getSaListBySid" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT s.sa_id AS id, s.name FROM ${account}.dbo.pda_stockArea s
+        <where>
+            <if test="sId != 0">
+                s.s_id=#{sId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

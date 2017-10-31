@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teeny.wms.core.repository.RecBillRepository">
+
+
+    <select id="countByWarehousId" resultType="int">
+        SELECT count(*) FROM ${account}.dbo.pda_RecBill p
+        <where>
+            <if test="warehouseId != 0">
+                S_id=#{warehouseId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getUnitList" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT DISTINCT
+        b.c_id AS id,
+        c.name AS name
+        FROM ${account}.dbo.pda_RecBill b
+        LEFT JOIN ${account}.dbo.pda_clients c ON b.c_id = c.c_id
+        WHERE b.billstates = 10
+        <if test="sId != 0">
+            AND b.s_id = #{sId}
+        </if>
+    </select>
+
+    <select id="getOrderList" resultType="com.teeny.wms.dto.RecBillDTO">
+        SELECT
+            r.billid     AS orderId,
+            r.billnumber AS billNo,
+            r.e_id       AS buyerId,
+            e.name       AS buyer,
+            c.name       AS unitName
+        FROM ${account}.dbo.pda_RecBill r
+            LEFT JOIN ${account}.dbo.pda_employees e ON r.e_id = e.e_id
+            LEFT JOIN ${account}.dbo.pda_clients c ON c.c_id = r.c_id
+        WHERE r.c_id = #{unitId} AND r.billstates = 10 AND r.pdastates != 2
+    </select>
+
+    <select id="getOrder" resultType="com.teeny.wms.dto.RecBillDTO">
+        SELECT
+            r.billid     AS orderId,
+            r.billnumber AS billNo,
+            r.e_id       AS buyerId,
+            e.name       AS buyer
+        FROM ${account}.dbo.pda_RecBill r
+            LEFT JOIN ${account}.dbo.pda_employees e ON r.e_id = e.e_id
+        WHERE r.billid = #{orderId} AND r.pdastates = 0
+    </select>
+
+    <select id="getGoodsByBillId" resultType="com.teeny.wms.dto.GoodsDTO">
+        SELECT
+            d.smb_id                                AS id,
+            d.original_id                           AS originalId,
+            b.billnumber                            AS billNo,
+            d.TaxPrice                              AS retailPrice,
+            d.Yqty                                  AS amount,
+            d.EligibleQty                           AS quantity,
+            c.name                                  AS manufacturer,
+            d.Batchno                               AS lotNo,
+            p.name                                  AS goodsName,
+            p.standard                              AS specification,
+            CONVERT(VARCHAR (100), d.Validdate, 23) AS validityDate,
+            CONVERT(VARCHAR (100), p.makearea, 23)  AS produceArea,
+            p.barcode                               AS barcode,
+            d.DealStates                            AS status,
+            p.WholeUnitName                          AS zhUnit,
+            p.unit1Name                              AS lhUnit,
+            p.WholeRate                              AS rate
+        FROM ${account}.dbo.pda_RecBill_D d
+            LEFT JOIN ${account}.dbo.pda_RecBill b ON b.billid = d.bill_id
+            LEFT JOIN ${account}.dbo.pda_Products p ON d.p_id = p.p_id
+            LEFT JOIN ${account}.dbo.pda_clients c ON c.c_id = d.Supplier_id
+        WHERE d.bill_id = #{orderId} AND d.pdastates = 0
+    </select>
+
+    <insert id="addData" parameterType="com.teeny.wms.core.domain.RecBillD" >
+        INSERT INTO ${account}.dbo.pda_RecBill_D
+        (bill_id,
+         p_id,
+         MakeDate,
+         Validdate,
+         Batchno,
+         Yqty,
+         EligibleQty,
+         TaxPrice,
+         TaxTotal,
+         CostPrice,
+         CostTotal,
+         S_id,
+         Location_id,
+         Supplier_id,
+         DealStates,
+         pdastates,
+         original_id,
+         rownumber,
+         wctime,
+         loginid)
+        VALUES
+            (#{item.bill_id},
+             #{item.p_id},
+             #{item.MakeDate},
+             #{item.Validdate},
+             #{item.Batchno},
+             #{item.Yqty},
+             #{item.EligibleQty},
+             #{item.TaxPrice},
+             #{item.TaxTotal},
+             #{item.CostPrice},
+             #{item.CostTotal},
+             #{item.S_id},
+             #{item.Location_id},
+             #{item.Supplier_id},
+             #{item.DealStates},
+             #{item.pdastates},
+             #{item.original_id},
+             #{item.rownumber},
+            getdate(),
+            #{userId})
+    </insert>
+
+    <select id="getOrderBillWithUnitId" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT r.billid AS id, r.billnumber AS name
+        FROM ${account}.dbo.pda_RecBill r WHERE c_id=#{unitId}
+        <if test="sId != 0">
+            AND r.s_id=#{sId}
+        </if>
+    </select>
+
+
+    <select id="getLotList" resultType="com.teeny.wms.dto.AcceptAddDTO">
+        SELECT
+            d.Batchno                                AS lotNo,
+            CONVERT(VARCHAR (100), d.Validdate, 23)  AS validityDate,
+            d.TaxPrice                               AS price,
+            d.rownumber                              AS serialNo,
+            d.WholeQty                               AS zhAmount,
+            p.WholeUnitName                          AS zhUnit,
+            d.retailQty                              AS lhAmount,
+            p.unit1Name                              AS lhUnit,
+            p.WholeRate                              AS rate
+        FROM ${account}.dbo.pda_RecBill_D d
+            LEFT JOIN ${account}.dbo.pda_Products p ON d.p_id = p.p_id
+        WHERE d.DealStates = 1 AND d.original_id = #{id}
+    </select>
+
+
+    <select id="getBill" resultType="com.teeny.wms.dto.QueryDocumentDTO">
+        SELECT
+        b.billid AS id,
+        b.billnumber AS documentNo,
+        CONVERT(VARCHAR (100), b.pdaInTime, 23) AS documentDate,
+        1 AS type,
+        '验收单' AS typeDescription,
+        CASE b.billstates
+        WHEN 10
+        THEN '验收中'
+        WHEN 13
+        THEN '已验收'
+        ELSE '' END AS status
+        FROM ${account}.dbo.pda_RecBill b
+        WHERE b.pdastates = 1
+        <if test="sId != 0">
+            AND b.s_id=#{sId}
+        </if>
+    </select>
+
+
+    <insert id="test">
+        INSERT INTO ${account}.dbo.pda_RecBill_D (bill_id, p_id, MakeDate, Validdate, Batchno, Yqty, EligibleQty, TaxPrice, TaxTotal, CostPrice, CostTotal, S_id, Location_id, Supplier_id, DealStates, pdastates)
+            SELECT
+                d.bill_id,
+                d.p_id,
+                d.MakeDate,
+                #{date},
+                #{lotNo},
+                d.Yqty,
+                #{amount},
+                #{price},
+                d.TaxTotal,
+                d.CostPrice,
+                d.CostTotal,
+                d.S_id,
+                d.Location_id,
+                d.Supplier_id,
+                1,
+                d.pdastates
+            FROM ${account}.dbo.pda_RecBill_D d
+            WHERE d.smb_id = #{id}
+    </insert>
+
+
+    <select id="getOriginal" resultType="com.teeny.wms.core.domain.RecBillD">
+        SELECT TOP 1
+        bill_id,
+            p_id,
+            MakeDate,
+            Validdate,
+            Batchno,
+            Yqty,
+            EligibleQty,
+            TaxPrice,
+            TaxTotal,
+            CostPrice,
+            CostTotal,
+            S_id,
+            Location_id,
+            Supplier_id,
+            DealStates,
+            pdastates,
+            original_id
+        FROM ${account}.dbo.pda_RecBill_D
+        WHERE original_id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd 
+	http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+
+    <security:global-method-security
+            pre-post-annotations="enabled"/>
+
+    <bean id="securityUserService"
+          class="com.teeny.wms.security.UserDetailsServiceImpl">
+    </bean>
+
+    <oauth2:client-details-service id="clientDetailsService">
+        <oauth2:client client-id="wms" authorities="PLATFORM" scope="SCOPE_TRUST" authorized-grant-types="password,refresh_token"/>
+    </oauth2:client-details-service>
+
+    <bean id="oauth2ClientDetailsUserService"
+          class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+        <constructor-arg ref="clientDetailsService"/>
+    </bean>
+
+
+    <bean id="clientCredentialsTokenEndpointFilter"
+          class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+        <property name="authenticationManager" ref="oauth2AuthenticationManager"/>
+    </bean>
+
+    <!--OAuth Client Authentication -->
+
+    <security:authentication-manager id="oauth2AuthenticationManager">
+        <security:authentication-provider
+                user-service-ref="oauth2ClientDetailsUserService"/>
+    </security:authentication-manager>
+
+    <!-- User Authentication -->
+    <bean id="passwordEncoder"  class="com.teeny.wms.security.PasswordValidater"/>
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider
+                user-service-ref="securityUserService">
+            <security:password-encoder ref="passwordEncoder">
+            </security:password-encoder>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+    <bean id="oauth2AccessDeniedHandler"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler"/>
+
+    <bean id="oauthUserApprovalHandler"
+          class="com.teeny.wms.security.WmsAutoApprovalHandler"/>
+
+    <bean id="oauth2DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${database.driverClassName}"/>
+        <property name="jdbcUrl" value="${database.url}"/>
+        <property name="user" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+        <property name="minPoolSize" value="10"/>
+        <property name="maxPoolSize" value="100"/>
+        <property name="maxIdleTime" value="1800"/>
+        <property name="acquireIncrement" value="3"/>
+        <property name="maxStatements" value="1000"/>
+        <property name="initialPoolSize" value="10"/>
+        <property name="idleConnectionTestPeriod" value="60"/>
+        <property name="acquireRetryAttempts" value="30"/>
+        <property name="breakAfterAcquireFailure" value="true"/>
+        <property name="testConnectionOnCheckout" value="false"/>
+    </bean>
+
+    <bean id="tokenServices"
+          class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <property name="tokenStore">
+            <bean
+                    class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
+                <constructor-arg ref="oauth2DataSource"/>
+            </bean>
+        </property>
+        <property name="supportRefreshToken" value="true"/>
+        <property name="accessTokenValiditySeconds" value="43200"/>
+    </bean>
+
+    <bean id="oauth2AuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint"/>
+
+    <oauth2:authorization-server
+            client-details-service-ref="clientDetailsService" token-services-ref="tokenServices"
+            user-approval-handler-ref="oauthUserApprovalHandler">
+        <oauth2:authorization-code/>
+        <oauth2:implicit/>
+        <oauth2:refresh-token/>
+        <oauth2:client-credentials/>
+        <oauth2:password/>
+    </oauth2:authorization-server>
+
+
+    <bean id="oauth2AccessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+        <constructor-arg>
+            <list>
+                <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter"/>
+                <bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+                <bean
+                        class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+    <oauth2:resource-server id="adminResourceServer"
+                            resource-id="admin-resource" token-services-ref="tokenServices"/>
+
+    <security:http pattern="/oauth/token" create-session="stateless"
+                   authentication-manager-ref="oauth2AuthenticationManager"
+                   entry-point-ref="oauth2AuthenticationEntryPoint">
+        <security:intercept-url pattern="/oauth/token"
+                                access="IS_AUTHENTICATED_FULLY"/>
+        <security:anonymous enabled="false"/>
+        <security:custom-filter ref="clientCredentialsTokenEndpointFilter"
+                                position="BASIC_AUTH_FILTER"/>
+        <security:access-denied-handler ref="oauth2AccessDeniedHandler"/>
+    </security:http>
+
+    <security:http pattern="/api/**" create-session="stateless"
+                   entry-point-ref="oauth2AuthenticationEntryPoint"
+                   access-decision-manager-ref="oauth2AccessDecisionManager"
+                   use-expressions="true">
+        <security:anonymous enabled="false"/>
+        <security:intercept-url pattern="/api/**"
+                                access="hasAnyRole('ROLE_GENERAL_USER')"/>
+        <security:custom-filter ref="adminResourceServer"
+                                before="PRE_AUTH_FILTER"/>
+        <security:access-denied-handler ref="oauth2AccessDeniedHandler"/>
+    </security:http>
+
+</beans>

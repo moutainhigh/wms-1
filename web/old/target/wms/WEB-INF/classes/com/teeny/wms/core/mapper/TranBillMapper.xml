@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teeny.wms.core.repository.TranBillRepository">
+
+    <select id="countByWarehousId" resultType="int">
+        SELECT count(*) FROM ${account}.dbo.pda_TranBill p
+        <where>
+            <if test="warehouseId != 0">
+                AND p.sout_id=#{warehouseId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getTransferList" resultType="com.teeny.wms.dto.TransferListDTO">
+        SELECT
+        d.smb_id AS id,
+        d.original_id AS originalId,
+        p.p_id AS goodsId,
+        p.name AS goodsName,
+        d.Batchno AS lotNo,
+        p.standard AS specification,
+        p.Factory AS manufacturer,
+        p.unit1Name AS unit,
+        d.quantity AS amount,
+        CONVERT(VARCHAR (100), d.Validdate, 23) AS validateDate,
+        CONVERT(VARCHAR (100), d.MakeDate, 23) AS productDate,
+        p.barcode,
+        b.billnumber AS billNo,
+        d.DealStates AS status,
+        p.serial_number AS number,
+        l1.loc_code AS exportName,
+        l2.loc_code AS importName
+        FROM ${account}.dbo.pda_TranBill_D d
+        LEFT JOIN ${account}.dbo.pda_Products p ON p.p_id = d.p_id
+        LEFT JOIN ${account}.dbo.pda_TranBill b ON b.billid = d.bill_id
+        LEFT JOIN ${account}.dbo.pda_location l1 ON l1.l_id = d.Location_id
+        LEFT JOIN ${account}.dbo.pda_location l2 ON l2.l_id = d.location_id2
+        WHERE d.DealStates = 0
+        <if test="billNo != null and billNo != ''">
+            AND b.billnumber = #{billNo}
+        </if>
+        <if test="goodsCode != null and goodsCode != ''">
+            AND p.barcode = #{goodsCode}
+        </if>
+        <if test="sId != 0">
+            AND b.sout_id = #{sId}
+        </if>
+        <if test="saId != 0">
+            AND b.sa_outid = #{saId}
+        </if>
+    </select>
+
+
+    <select id="getBills" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT
+        b.billid AS id,
+        b.billnumber AS name
+        FROM ${account}.dbo.pda_TranBill b
+        <where>
+            <if test="saId!=0">
+                b.sa_outid = #{saId}
+            </if>
+            <if test="sId!=0">
+                AND b.sout_id = #{sId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getGoodsCode" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT DISTINCT
+        d.original_id AS id,
+        p.barcode AS name
+        FROM ${account}.dbo.pda_TranBill_D d
+        INNER JOIN ${account}.dbo.pda_Products p ON d.p_id = p.p_id
+        LEFT JOIN ${account}.dbo.pda_TranBill b ON d.bill_id = b.billid
+        <where>
+            <if test="saId!=0">
+                b.sa_outid = #{saId}
+            </if>
+            <if test="sId!=0">
+                AND b.sout_id = #{sId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="copyData">
+        INSERT INTO ${account}.dbo.pda_TranBill_D
+        (bill_id, p_id, MakeDate, Validdate, Batchno, quantity, TaxPrice, TaxTotal, CostPrice, CostTotal, ss_id, sd_id, Location_id, location_id2, Supplier_id, DealStates, pdastates, original_id, wctime, loginid)
+            SELECT
+                d.bill_id,
+                d.p_id,
+                d.MakeDate,
+                d.Validdate,
+                d.Batchno,
+                #{amount},
+                d.TaxPrice,
+                d.TaxTotal,
+                d.CostPrice,
+                d.CostTotal,
+                d.ss_id,
+                d.sd_id,
+                d.Location_id,
+                #{locationId},
+                d.Supplier_id,
+                1,
+                d.pdastates,
+                d.original_id,
+                getdate(),
+                #{userId}
+            FROM ${account}.dbo.pda_TranBill_D d
+            WHERE d.smb_id = (SELECT max(d1.smb_id)
+                              FROM ${account}.dbo.pda_TranBill_D d1
+                              WHERE d1.original_id = #{id})
+
+    </insert>
+
+
+    <select id="getBill" resultType="com.teeny.wms.dto.QueryDocumentDTO">
+        SELECT
+        b.billid AS id,
+        b.billnumber AS documentNo,
+        CONVERT(VARCHAR (100), b.pdaInTime, 23) AS documentDate,
+        3 AS type,
+        '调拨单' AS typeDescription,
+        CASE b.billstates
+        WHEN 2
+        THEN '待调拨'
+        WHEN 3
+        THEN '调拨中'
+        ELSE '' END AS status
+        FROM ${account}.dbo.pda_TranBill b
+        WHERE b.pdastates = 1
+        <if test="sId != 0">
+            AND b.sout_id=#{sId}
+        </if>
+    </select>
+
+</mapper>

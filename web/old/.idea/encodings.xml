@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://D:/Users/Documents/TS_D_GetClientStates.sql" charset="GBK" />
+    <file url="file://D:/Users/Documents/TS_D_pdaData0922.sql" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/teeny/wms/core/domain/Products.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/文档/sql/TS_D_pdaData.sql" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/文档/sql/TS_D_pdaData_new1.sql" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/文档/sql/VW_PDA_Storehouse.SQL" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/文档/sql/yyt09.1.7升级脚本.sql" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/文档/sql/原始文件/TS_D_pdaData.sql" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/文档/sql/原始文件/药易通中间表设计.sql" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/文档/sql/药易通中间表设计1.sql" charset="GBK" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

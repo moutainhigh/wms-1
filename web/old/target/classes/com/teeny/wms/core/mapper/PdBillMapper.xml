@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teeny.wms.core.repository.PdBillRepository">
+
+    <!--<select id="getBillCount" resultType="int">-->
+
+    <!--SELECT count(*) total FROM ${account}.dbo.pda_pdBill b-->
+    <!--WHERE b.billid IN (-->
+    <!--SELECT d.bill_id FROM ${account}.dbo.pda_pdBill_D d-->
+    <!--<where>-->
+    <!--<if test="goodsId != 0">-->
+    <!--d.p_id = #{goodsId}-->
+    <!--</if>-->
+    <!--<if test="locationId != 0">-->
+    <!--AND d.Location_id = #{locationId}-->
+    <!--</if>-->
+    <!--</where>-->
+    <!--) AND b.billstates = #{type} AND b.pdastates = 2-->
+    <!--<if test="pdname != null and pdname != ''">-->
+    <!--b.pdname =#{pdType}-->
+    <!--</if>-->
+    <!--<if test="saId != 0">-->
+    <!--AND b.sa_id = #{saId}-->
+    <!--</if>-->
+
+    <!--</select>-->
+
+    <!--<select id="getBillTotal" resultType="int">-->
+    <!--SELECT count(*) total FROM ${account}.dbo.pda_pdBill b-->
+    <!--WHERE b.billid IN (-->
+    <!--SELECT d.bill_id FROM ${account}.dbo.pda_pdBill_D d-->
+    <!--<where>-->
+    <!--<if test="goodsId != 0">-->
+    <!--d.p_id = #{goodsId}-->
+    <!--</if>-->
+    <!--<if test="locationId != 0">-->
+    <!--AND d.Location_id = #{locationId}-->
+    <!--</if>-->
+    <!--</where>-->
+    <!--) AND b.billstates = #{type}-->
+    <!--<if test="pdname != null and pdname != ''">-->
+    <!--b.pdname =#{pdType}-->
+    <!--</if>-->
+    <!--<if test="saId != 0">-->
+    <!--AND b.sa_id = #{saId}-->
+    <!--</if>-->
+    <!--</select>-->
+
+    <!--<select id="getPcount" resultType="int">-->
+    <!--SELECT count(*) total FROM ${account}.dbo.pda_pdBill_D d LEFT JOIN ${account}.dbo.pda_pdBill b ON d.bill_id=b.billid-->
+    <!--WHERE b.billstates = #{type} AND b.pdastates = 2-->
+    <!--<if test="saId != 0">-->
+    <!--AND b.sa_id = #{saId}-->
+    <!--</if>-->
+    <!--<if test="areaId != 0">-->
+    <!--AND b.a_id = #{areaId}-->
+    <!--</if>-->
+    <!--<if test="locationId != 0">-->
+    <!--AND d.Location_id = #{locationId}-->
+    <!--</if>-->
+    <!--<if test="goodsId != 0">-->
+    <!--AND d.p_id = #{goodsId}-->
+    <!--</if>-->
+    <!--</select>-->
+
+    <!--<select id="getPtotal" resultType="int">-->
+    <!--SELECT count(*) total FROM ${account}.dbo.pda_pdBill_D d LEFT JOIN ${account}.dbo.pda_pdBill b ON d.bill_id=b.billid-->
+    <!--WHERE b.billstates = #{type}-->
+    <!--<if test="saId != 0">-->
+    <!--AND b.sa_id = #{saId}-->
+    <!--</if>-->
+    <!--<if test="areaId != 0">-->
+    <!--AND b.a_id = #{areaId}-->
+    <!--</if>-->
+    <!--<if test="locationId != 0">-->
+    <!--AND d.Location_id = #{locationId}-->
+    <!--</if>-->
+    <!--<if test="goodsId != 0">-->
+    <!--AND d.p_id = #{goodsId}-->
+    <!--</if>-->
+    <!--</select>-->
+
+    <!--门店初盘-->
+
+    <select id="getStoreInventoryList" resultType="com.teeny.wms.dto.StoreInventoryGoodsDTO">
+        SELECT
+        d.smb_id AS id,
+        d.bill_id AS billId,
+        d.p_id AS goodsId,
+        p.name AS goodsName,
+        d.original_id AS originalId,
+        l.loc_code AS location,
+        d.EligibleQty AS countInBill,
+        d.pdQty AS inventoryCount,
+        p.unit1Name AS unit,
+        c.name AS manufacturer,
+        d.DealStates AS status ,
+        p.standard AS specification,
+        l.loc_code AS locationCode,
+        p.barcode AS goodsCode
+        FROM ${account}.dbo.pda_pdBill_D d
+        LEFT JOIN ${account}.dbo.pda_pdBill b ON b.billid=d.bill_id
+        LEFT JOIN ${account}.dbo.pda_Products p ON d.p_id=p.p_id
+        LEFT JOIN ${account}.dbo.pda_stockArea sa ON sa.sa_id=b.sa_id
+        LEFT JOIN ${account}.dbo.pda_clients c ON c.c_id=d.Supplier_id
+        LEFT JOIN ${account}.dbo.pda_Area a ON a.sc_id=b.a_id
+        LEFT JOIN ${account}.dbo.pda_location l ON l.l_id=d.Location_id
+        WHERE
+        b.pdname = #{pdType} AND b.billstates = 1 AND d.billstates=1 AND b.sa_id = #{saId} AND b.a_id=#{areaId} AND
+        b.pdastates != 2 AND d.smb_id = (SELECT TOP 1 smb_id FROM ${account}.dbo.pda_pdBill_D WHERE d.original_id =
+        original_id)
+        <if test="sId != 0">
+            AND b.s_id = #{sId}
+        </if>
+    </select>
+
+    <!--//复制数据-->
+    <insert id="edit">
+        INSERT INTO ${account}.dbo.pda_pdBill_D (bill_id, p_id, MakeDate, EligibleQty, S_id, Location_id, Supplier_id, InstoreTime, billstates, Validdate, Batchno, pdQty, DealStates, pdastates, original_id, wctime, loginid)
+            SELECT
+                d.bill_id,
+                d.p_id,
+                d.MakeDate,
+                d.EligibleQty,
+                d.S_id,
+                d.Location_id,
+                d.Supplier_id,
+                d.InstoreTime,
+                d.billstates,
+                #{validateDate},
+                #{lotNo},
+                #{count},
+                1,
+                d.pdastates,
+                d.original_id,
+                getdate(),
+                #{userId}
+            FROM ${account}.dbo.pda_pdBill_D d
+            WHERE d.smb_id = (SELECT max(d1.smb_id)
+                              FROM ${account}.dbo.pda_pdBill_D d1
+                              WHERE d1.original_id = #{id})
+    </insert>
+
+    <!--////////////////////单品盘点////////////////////-->
+
+    <select id="countProductInventory" resultType="int">
+        SELECT count(*) FROM ${account}.dbo.pda_kcpdBill_D d
+        LEFT JOIN ${account}.dbo.pda_Products p ON p.p_id=d.p_id
+        LEFT JOIN ${account}.dbo.pda_location l ON l.l_id=d.Location_id
+        <where>
+            <if test="product != null and product != ''">
+                p.name LIKE concat('%', #{product}, '%')
+            </if>
+            <if test="location != null and location != ''">
+                AND l.loc_name LIKE concat('%', #{location}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getProductsInventoryList" resultType="com.teeny.wms.dto.PdListDTO">
+        SELECT
+        s.storehouse_id AS id,
+        s.p_id AS goodsId,
+        s.Pname AS goodsName,
+        s.Code AS number,
+        s.Locname AS locationName,
+        s.location_id AS locationId,
+        s.batchno AS lotNo,
+        s.factory AS manufacturer,
+        s.quantity,
+        CONVERT(VARCHAR(100), s.validdate, 23) AS validateDate,
+        CONVERT(VARCHAR(100), s.makedate, 23) AS productDate,
+        s.Standard AS specification,
+        s.Name1 AS unit,
+        s.costprice AS costPrice,
+        s.costtotal AS costTotal,
+        s.Makearea AS productionPlace
+        FROM ${account}.dbo.VW_PDA_Storehouse s
+        LEFT JOIN ${account}.dbo.pda_location l ON l.l_id = s.location_id
+        INNER JOIN ${account}.dbo.pda_Products p ON p.p_id = s.p_id
+        <where>
+            <if test="location != null and location != ''">
+                l.loc_code = #{location}
+            </if>
+            <if test="barcode != null and barcode != ''">
+                AND p.barcode = #{barcode}
+            </if>
+        </where>
+    </select>
+
+
+    <!--<update id="updateStatus">-->
+    <!--UPDATE pda_kcpdBill_D SET DealStates = 1,pdastates = 1-->
+    <!--WHERE d.ss_id = #{sId}-->
+    <!--<if test="product != null and product != ''">-->
+    <!--AND p_id IN (SELECT p.p_id FROM pda_Products p LEFT JOIN pda_kcpdBill_D d ON d.p_id=p.p_id-->
+    <!--WHERE p.name LIKE concat('%',#{product},'%'))-->
+    <!--</if>-->
+    <!--<if test="location != null and location != ''">-->
+    <!--AND Location_id IN-->
+    <!--(SELECT l.l_id FROM pda_location l LEFT JOIN pda_kcpdBill_D d1 ON d1.Location_id=l.l_id WHERE l.loc_name LIKE concat('%',#{location},'%'))-->
+    <!--</if>-->
+    <!--</update>-->
+
+
+    <!-- -                          仓库盘点 /  复盘    btype/dtype             -->
+
+    <select id="getStroePdList" resultType="com.teeny.wms.dto.StroePdListDTO">
+        SELECT
+        d.smb_id AS id,
+        d.bill_id AS billId,
+        d.p_id AS goodsId,
+        l.loc_code AS locationCode,
+        p.barcode AS goodsCode,
+        l.loc_name AS location,
+        d.pdQty AS inventoryCount,
+        d.Batchno AS lotNo,
+        p.name AS goodsName,
+        p.standard AS specification,
+        c.name AS manufacturer,
+        d.EligibleQty AS countInBill,
+        CONVERT(varchar(100), d.Validdate, 23) AS validateDate,
+        CONVERT(varchar(100), d.MakeDate, 23) AS productionDate,
+        p.unit1Name AS unit,
+        d.DealStates AS status,
+        d.original_id AS originalId
+        FROM ${account}.dbo.pda_pdBill_D d
+        LEFT JOIN ${account}.dbo.pda_pdBill b ON b.billid = d.bill_id
+        LEFT JOIN ${account}.dbo.pda_Products p ON d.p_id = p.p_id
+        LEFT JOIN ${account}.dbo.pda_stockArea sa ON sa.sa_id = b.sa_id
+        LEFT JOIN ${account}.dbo.pda_clients c ON c.c_id = d.Supplier_id
+        LEFT JOIN ${account}.dbo.pda_Area a ON a.sc_id = b.a_id
+        LEFT JOIN ${account}.dbo.pda_location l ON l.l_id = d.Location_id
+        WHERE b.pdname = #{pdType} AND b.sa_id = #{saId} AND b.a_id = #{areaId} AND b.billstates = #{btype} AND
+        b.pdastates != 2
+        AND d.billstates = #{dtype}
+        <if test="sId != 0">
+            AND b.s_id = #{sId}
+        </if>
+    </select>
+
+
+    <insert id="addProduct" parameterType="com.teeny.wms.dto.AddProductDTO">
+        INSERT INTO ${account}.dbo.pda_kcpdBill_D (
+            storehouse_id,
+            p_id,
+            Batchno,
+            Location_id,
+            quantity,
+            pdqty,
+            Validdate,
+            ss_id,
+            DealStates,
+            pdastates,
+            wctime,
+            loginid)
+        VALUES (
+            #{item.id},
+            #{item.pId},
+            #{item.lotNo},
+            #{item.locationId},
+            #{item.amount},
+            #{item.originalAmount},
+            #{item.validateDate},
+            #{sId},
+            1,
+            0,
+            getdate(),
+            #{userId}
+        )
+    </insert>
+
+
+    <select id="getPdType" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT
+        b.billid AS  id,
+        b.pdname AS name
+        FROM ${account}.dbo.pda_pdBill b
+        WHERE b.billstates = #{type} AND b.pdastates &lt; 2
+        <where>
+            <if test="sId != 0">
+                AND b.s_id = #{sId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addInventory" parameterType="com.teeny.wms.dto.InventoryAddDTO">
+        INSERT INTO ${account}.dbo.pda_pdBill_D
+        (bill_id,
+         p_id,
+         Validdate,
+         Batchno,
+         EligibleQty,
+         pdQty,
+         S_id,
+         Location_id,
+         Supplier_id,
+         InstoreTime,
+         billstates,
+         DealStates,
+         pdastates,
+         wctime,
+         loginid)
+            SELECT
+                #{item.inventoryId},
+                #{item.goodsId},
+                #{item.validateDate},
+                #{item.lotNo},
+                #{item.amount},
+                #{item.amount},
+                #{sId},
+                #{item.locationId},
+                p.Supplier_id,
+                getdate(),
+                #{item.billState},
+                1,
+                0,
+                getdate(),
+                #{userId}
+            FROM ${account}.dbo.pda_Products p
+            WHERE p.p_id = #{item.goodsId}
+    </insert>
+
+    <!--2017/10/12修改-->
+    <select id="getInventoryList" resultType="com.teeny.wms.dto.InventoryGoodsDTO">
+        SELECT
+            d.smb_id                               AS id,
+            d.original_id                          AS originalId,
+            d.bill_id                              AS billId,
+            d.p_id                                 AS goodsId,
+            p.name                                 AS goodsName,
+            l.loc_code                             AS location,
+            d.EligibleQty                          AS countInBill,
+            d.pdQty                                AS inventoryCount,
+            p.unit1Name                            AS unit,
+            p.standard                             AS specification,
+            c.name                                 AS manufacturer,
+            d.DealStates                           AS status,
+            l.loc_code                             AS locationCode,
+            p.barcode                              AS goodsCode,
+            d.Batchno                              AS lotNo,
+            CONVERT(VARCHAR(100), d.Validdate, 23) AS validateDate,
+            CONVERT(VARCHAR(100), d.MakeDate, 23)  AS productionDate,
+            isnull(sa.name , '')                   AS repositoryName,
+            isnull(a.name, '')                     AS areaName
+        FROM ${account}.dbo.pda_pdBill_D d
+            LEFT JOIN ${account}.dbo.pda_Products p ON d.p_id = p.p_id
+            LEFT JOIN ${account}.dbo.pda_clients c ON c.c_id = d.Supplier_id
+            LEFT JOIN ${account}.dbo.pda_location l ON l.l_id = d.Location_id
+            LEFT JOIN ${account}.dbo.pda_stockArea sa ON sa.sa_id = l.sa_id
+            LEFT JOIN ${account}.dbo.pda_Area a ON a.sc_id = l.sc_id
+        WHERE
+            d.bill_id = #{id}
+        <if test="isMerge">
+            AND d.smb_id = (SELECT min(smb_id) AS id FROM ${account}.dbo.pda_pdBill_D WHERE d.original_id = original_id)
+        </if>
+        ORDER BY l.l_id
+    </select>
+</mapper>

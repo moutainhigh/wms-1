@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teeny.wms.core.repository.PutOnBillRepository">
+
+
+    <select id="countByWarehousId" resultType="int">
+        SELECT count(*) FROM ${account}.dbo.pda_PutOnBill p
+        <where>
+            <if test="warehouseId != 0">
+                AND s_id=#{warehouseId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getGoodsDetailList" parameterType="string" resultType="com.teeny.wms.dto.PutawayDTO">
+        SELECT
+        d.smb_id AS id,
+        d.original_id AS originalId,
+        d.DealStates AS status,
+        p.p_id AS goodsId,
+        p.name AS goodsName,
+        d.Batchno AS lotNo,
+        p.standard AS specification,
+        d.MakeDate AS productionDate,
+        p.unit1Name AS unit,
+        d.EligibleQty AS amount,
+        p.Factory AS manufacturer,
+        l.loc_code AS locationCode,
+        p.barcode AS goodsCode
+        FROM ${account}.dbo.pda_PutOnBill_D d
+        INNER JOIN ${account}.dbo.pda_PutOnBill b ON d.bill_id = b.billid AND b.pdastates != 2
+        LEFT JOIN ${account}.dbo.pda_location l ON l.l_id=d.Location_id
+        LEFT JOIN ${account}.dbo.pda_Products p ON p.p_id=d.p_id
+        WHERE b.billnumber=#{orderNoId}
+        <if test="sId !=0 ">
+            AND d.S_id=#{sId}
+        </if>
+        ORDER BY l.loc_name ASC
+    </select>
+
+
+    <!--                      更新                             -->
+
+
+    <update id="updateDetailsStatus">
+        UPDATE pda_PutOnBill_D SET DealStates=1
+        WHERE bill_id = (SELECT b.billid FROM pda_pdBill b WHERE b.billid=#{orderNoId})
+        <if test="allocationId != 0">
+            AND Location_id = #{allocationId}
+        </if>
+        <if test="goodsId != 0">
+            AND p_id = #{goodsId}
+        </if>
+    </update>
+
+    <update id="copyData">
+        INSERT INTO ${account}.dbo.pda_PutOnBill_D
+        (bill_id,
+         p_id,
+         MakeDate,
+         Validdate,
+         Batchno,
+         EligibleQty,
+         TaxPrice,
+         TaxTotal,
+         CostPrice,
+         CostTotal,
+         S_id,
+         Location_id,
+         Supplier_id,
+         InstoreTime,
+         LineSort,
+         DealStates,
+         pdastates, original_id)
+            SELECT
+                bill_id,
+                p_id,
+                MakeDate,
+                Validdate,
+                Batchno,
+                #{amout},
+                TaxPrice,
+                TaxTotal,
+                CostPrice,
+                CostTotal,
+                S_id,
+                #{allcationId},
+                Supplier_id,
+                InstoreTime,
+                LineSort,
+                1,
+                d.pdastates,
+                d.original_id
+            FROM pda_PutOnBill_D d
+            WHERE d.smb_id = #{goodsDetailId}
+    </update>
+
+    <insert id="copyDataByParam">
+        INSERT INTO ${account}.dbo.pda_PutOnBill_D (bill_id, p_id, MakeDate, Validdate, Batchno, EligibleQty, TaxPrice, TaxTotal, CostPrice, CostTotal, S_id, Location_id, Supplier_id, InstoreTime, LineSort, DealStates, pdastates, original_id, wctime, loginid)
+            SELECT
+                d.bill_id,
+                d.p_id,
+                d.MakeDate,
+                d.Validdate,
+                d.Batchno,
+                #{amount},
+                d.TaxPrice,
+                d.TaxTotal,
+                d.CostPrice,
+                d.CostTotal,
+                d.S_id,
+                #{locationId},
+                d.Supplier_id,
+                d.InstoreTime,
+                d.LineSort,
+                1,
+                d.pdastates,
+                d.original_id,
+                getdate(),
+                #{userId}
+            FROM ${account}.dbo.pda_PutOnBill_D d
+            WHERE d.smb_id = (SELECT max(d1.smb_id)
+                              FROM ${account}.dbo.pda_PutOnBill_D d1
+                              WHERE d1.original_id = #{id})
+    </insert>
+
+    <select id="getBills" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT b.billid AS id, b.billnumber AS name FROM ${account}.dbo.pda_PutOnBill b
+        WHERE b.pdastates !=2
+        <if test="saId!=0">
+            AND b.sa_id=#{saId}
+        </if>
+        <if test="saId==0 and sId != 0">
+            AND b.s_id=#{sId}
+        </if>
+    </select>
+
+
+    <select id="getLocations" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT DISTINCT l.l_id AS id, l.loc_name AS name
+        FROM ${account}.dbo.pda_PutOnBill_D d LEFT JOIN ${account}.dbo.pda_location l ON d.Location_id=l.l_id
+        <where>
+            <if test="sId != 0">
+                d.S_id=#{sId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getBill" resultType="com.teeny.wms.dto.QueryDocumentDTO">
+        SELECT
+            b.billid                                AS id,
+            b.billnumber                            AS documentNo,
+            CONVERT(VARCHAR (100), b.pdaInTime, 23) AS documentDate,
+            2                                       AS type,
+            '上架单'                                 AS typeDescription,
+            CASE b.billstates
+            WHEN 10
+                THEN '待上架'
+            WHEN 13
+                THEN '已上架'
+            ELSE '' END                             AS status
+        FROM ${account}.dbo.pda_PutOnBill b
+        WHERE b.pdastates = 1
+        <if test="sId != 0">
+            AND b.s_id=#{sId}
+        </if>
+    </select>
+
+    <select id="getSaListBysId" resultType="com.teeny.wms.dto.CommonDTO">
+        SELECT DISTINCT
+            b.sa_id AS id,
+            a.name
+        FROM ${account}.dbo.pda_PutOnBill b
+            INNER JOIN ${account}.dbo.pda_stockArea a ON b.sa_id = a.sa_id
+        WHERE b.billstates = 10
+        <if test="sId != 0">
+           AND b.s_id = #{sId}
+        </if>
+    </select>
+
+</mapper>
