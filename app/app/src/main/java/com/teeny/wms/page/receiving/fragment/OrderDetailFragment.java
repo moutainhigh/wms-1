@@ -1,4 +1,4 @@
-package com.teeny.wms.page.acceptance.fragment;
+package com.teeny.wms.page.receiving.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +12,10 @@ import com.teeny.wms.R;
 import com.teeny.wms.base.BaseFragment;
 import com.teeny.wms.base.RecyclerViewTouchListener;
 import com.teeny.wms.base.decoration.VerticalDecoration;
-import com.teeny.wms.model.ReceivingAcceptanceOrderEntity;
-import com.teeny.wms.page.acceptance.ReceivingAcceptanceOrderDetailActivity;
-import com.teeny.wms.page.acceptance.adapter.ReceivingAcceptanceAdapter;
-import com.teeny.wms.page.acceptance.helper.AcceptanceHelper;
+import com.teeny.wms.model.ReceivingItemEntity;
+import com.teeny.wms.page.receiving.ReceivingAcceptanceOrderDetailActivity;
+import com.teeny.wms.page.receiving.adapter.ReceivingAcceptanceAdapter;
+import com.teeny.wms.page.receiving.helper.AcceptanceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,7 +82,7 @@ public class OrderDetailFragment extends BaseFragment implements RecyclerViewTou
 
     @Override
     public void onItemClick(View view, int position) {
-        ReceivingAcceptanceOrderEntity entity = mAdapter.getItem(position);
+        ReceivingItemEntity entity = mAdapter.getItem(position);
         if (entity.getStatus() == 0) {
             ReceivingAcceptanceOrderDetailActivity.startActivity(getContext(), entity);
         }

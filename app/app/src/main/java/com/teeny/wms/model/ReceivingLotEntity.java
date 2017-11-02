@@ -8,11 +8,11 @@ import android.os.Parcelable;
  *
  * @author zp
  * @version 1.0
- * @see AcceptanceLotEntity
+ * @see ReceivingLotEntity
  * @since 2017/8/15
  */
 
-public class AcceptanceLotEntity implements Parcelable {
+public class ReceivingLotEntity implements Parcelable {
 
     private String lotNo;
     private int serialNo;
@@ -24,7 +24,7 @@ public class AcceptanceLotEntity implements Parcelable {
     private String lhUnit;
     private float rate;
 
-    public AcceptanceLotEntity() {
+    public ReceivingLotEntity() {
     }
 
     public String getLotNo() {
@@ -103,7 +103,7 @@ public class AcceptanceLotEntity implements Parcelable {
         return zhAmount * rate + lhAmount;
     }
 
-    protected AcceptanceLotEntity(Parcel in) {
+    protected ReceivingLotEntity(Parcel in) {
         lotNo = in.readString();
         serialNo = in.readInt();
         validityDate = in.readString();
@@ -133,15 +133,15 @@ public class AcceptanceLotEntity implements Parcelable {
         return 0;
     }
 
-    public static final Creator<AcceptanceLotEntity> CREATOR = new Creator<AcceptanceLotEntity>() {
+    public static final Creator<ReceivingLotEntity> CREATOR = new Creator<ReceivingLotEntity>() {
         @Override
-        public AcceptanceLotEntity createFromParcel(Parcel in) {
-            return new AcceptanceLotEntity(in);
+        public ReceivingLotEntity createFromParcel(Parcel in) {
+            return new ReceivingLotEntity(in);
         }
 
         @Override
-        public AcceptanceLotEntity[] newArray(int size) {
-            return new AcceptanceLotEntity[size];
+        public ReceivingLotEntity[] newArray(int size) {
+            return new ReceivingLotEntity[size];
         }
     };
 }

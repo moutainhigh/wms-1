@@ -1,11 +1,11 @@
-package com.teeny.wms.page.acceptance.adapter;
+package com.teeny.wms.page.receiving.adapter;
 
 import android.support.annotation.Nullable;
 
 import com.teeny.wms.R;
 import com.teeny.wms.base.RecyclerAdapter;
 import com.teeny.wms.base.RecyclerViewHolder;
-import com.teeny.wms.model.AcceptanceLotEntity;
+import com.teeny.wms.model.ReceivingLotEntity;
 import com.teeny.wms.util.Validator;
 import com.teeny.wms.widget.KeyValueTextView;
 
@@ -20,13 +20,13 @@ import java.util.List;
  * @since 2017/8/15
  */
 
-public class AcceptanceLotAdapter extends RecyclerAdapter<AcceptanceLotEntity> {
+public class AcceptanceLotAdapter extends RecyclerAdapter<ReceivingLotEntity> {
     /**
      * the constructor of this class.
      *
      * @param items the data source.
      */
-    public AcceptanceLotAdapter(@Nullable List<AcceptanceLotEntity> items) {
+    public AcceptanceLotAdapter(@Nullable List<ReceivingLotEntity> items) {
         super(items);
     }
 
@@ -36,7 +36,7 @@ public class AcceptanceLotAdapter extends RecyclerAdapter<AcceptanceLotEntity> {
     }
 
     @Override
-    protected void onBindViewHolder(RecyclerViewHolder holder, int position, AcceptanceLotEntity item) {
+    protected void onBindViewHolder(RecyclerViewHolder holder, int position, ReceivingLotEntity item) {
         KeyValueTextView lot = holder.get(R.id.lot_number);
         KeyValueTextView serial = holder.get(R.id.lot_serial_number);
         KeyValueTextView validityDate = holder.get(R.id.lot_validity_date);

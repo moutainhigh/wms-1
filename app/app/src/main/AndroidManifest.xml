@@ -66,14 +66,14 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".page.acceptance.ReceivingAcceptanceActivity"
+            android:name=".page.receiving.ReceivingAcceptanceActivity"
             android:exported="false"
             android:label="@string/text_receiving_acceptance"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".page.acceptance.AcceptanceLotAddActivity"
+            android:name=".page.receiving.AcceptanceLotAddActivity"
             android:exported="false"
             android:label="@string/text_lot_add"
             android:launchMode="singleTask"
@@ -172,7 +172,7 @@
             android:windowSoftInputMode="stateHidden|adjustNothing" />
 
         <activity
-            android:name=".page.acceptance.ReceivingAcceptanceOrderDetailActivity"
+            android:name=".page.receiving.ReceivingAcceptanceOrderDetailActivity"
             android:exported="false"
             android:label="@string/text_order_detail"
             android:launchMode="singleTask"

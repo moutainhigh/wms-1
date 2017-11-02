@@ -1,18 +1,15 @@
-package com.teeny.wms.model;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package com.teeny.wms.web.model.dto;
 
 /**
  * Class description:
  *
  * @author zp
  * @version 1.0
- * @see ReceivingAcceptanceOrderEntity
- * @since 2017/7/20
+ * @see ReceivingItemEntity
+ * @since 2017/11/1
  */
+public class ReceivingItemEntity {
 
-public class ReceivingAcceptanceOrderEntity implements Parcelable {
     private int id;//id 1
     private int originalId;       //原始id
     private String billNo;
@@ -32,9 +29,6 @@ public class ReceivingAcceptanceOrderEntity implements Parcelable {
     private float rate;
     private String zhUnit;
     private String lhUnit;
-
-    public ReceivingAcceptanceOrderEntity() {
-    }
 
     public int getId() {
         return id;
@@ -179,64 +173,4 @@ public class ReceivingAcceptanceOrderEntity implements Parcelable {
     public void setLhUnit(String lhUnit) {
         this.lhUnit = lhUnit;
     }
-
-    protected ReceivingAcceptanceOrderEntity(Parcel in) {
-        id = in.readInt();
-        originalId = in.readInt();
-        billNo = in.readString();
-        goodsName = in.readString();
-        lotNo = in.readString();
-        specification = in.readString();
-        validityDate = in.readString();
-        retailPrice = in.readString();
-        quantity = in.readString();
-        amount = in.readString();
-        manufacturer = in.readString();
-        produceArea = in.readString();
-        serialNo = in.readString();
-        barcode = in.readString();
-        status = in.readInt();
-        rate = in.readFloat();
-        zhUnit = in.readString();
-        lhUnit = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeInt(originalId);
-        dest.writeString(billNo);
-        dest.writeString(goodsName);
-        dest.writeString(lotNo);
-        dest.writeString(specification);
-        dest.writeString(validityDate);
-        dest.writeString(retailPrice);
-        dest.writeString(quantity);
-        dest.writeString(amount);
-        dest.writeString(manufacturer);
-        dest.writeString(produceArea);
-        dest.writeString(serialNo);
-        dest.writeString(barcode);
-        dest.writeInt(status);
-        dest.writeFloat(rate);
-        dest.writeString(zhUnit);
-        dest.writeString(lhUnit);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<ReceivingAcceptanceOrderEntity> CREATOR = new Creator<ReceivingAcceptanceOrderEntity>() {
-        @Override
-        public ReceivingAcceptanceOrderEntity createFromParcel(Parcel in) {
-            return new ReceivingAcceptanceOrderEntity(in);
-        }
-
-        @Override
-        public ReceivingAcceptanceOrderEntity[] newArray(int size) {
-            return new ReceivingAcceptanceOrderEntity[size];
-        }
-    };
 }

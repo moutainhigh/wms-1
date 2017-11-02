@@ -1,14 +1,13 @@
 package com.teeny.wms.app.exception.handler;
 
 import com.teeny.wms.app.exception.InnerException;
+import com.teeny.wms.app.model.ResponseEntity;
 import com.teeny.wms.util.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Class description:
@@ -30,7 +29,7 @@ public class AppExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     @ResponseBody
-    public com.teeny.wms.app.model.ResponseEntity handleInnerException(Exception ex) {
+    public ResponseEntity handleInnerException(Exception ex) {
         int code = CODE_UNKNOWN_EXCEPTION;
         if (ex instanceof InnerException) {
             code = CODE_INNER_EXCEPTION;
@@ -39,6 +38,6 @@ public class AppExceptionHandler {
         if (Validator.isEmpty(message)) {
             message = MESSAGE_UNKNOWN_EXCEPTION;
         }
-        return com.teeny.wms.app.model.ResponseEntity.create(code, message);
+        return ResponseEntity.create(code, message);
     }
 }

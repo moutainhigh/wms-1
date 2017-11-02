@@ -1,4 +1,4 @@
-package com.teeny.wms.page.acceptance.adapter;
+package com.teeny.wms.page.receiving.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.teeny.wms.R;
 import com.teeny.wms.base.RecyclerAdapter;
 import com.teeny.wms.base.RecyclerViewHolder;
-import com.teeny.wms.model.ReceivingAcceptanceOrderEntity;
+import com.teeny.wms.model.ReceivingItemEntity;
 import com.teeny.wms.util.Validator;
 import com.teeny.wms.widget.KeyValueTextView;
 
@@ -25,25 +25,25 @@ import java.util.List;
  * @since 2017/7/20
  */
 
-public class ReceivingAcceptanceAdapter extends RecyclerAdapter<ReceivingAcceptanceOrderEntity> implements Filterable {
+public class ReceivingAcceptanceAdapter extends RecyclerAdapter<ReceivingItemEntity> implements Filterable {
 
     private final Object mLock = new Object();
 
     private Filter mFilter;
 
-    private List<ReceivingAcceptanceOrderEntity> mOriginalValues;
+    private List<ReceivingItemEntity> mOriginalValues;
 
     /**
      * the constructor of this class.
      *
      * @param items the data source.
      */
-    public ReceivingAcceptanceAdapter(@Nullable List<ReceivingAcceptanceOrderEntity> items) {
+    public ReceivingAcceptanceAdapter(@Nullable List<ReceivingItemEntity> items) {
         super(items);
     }
 
     @Override
-    public void setItems(List<ReceivingAcceptanceOrderEntity> items) {
+    public void setItems(List<ReceivingItemEntity> items) {
         mOriginalValues = null;
         super.setItems(items);
     }
@@ -54,7 +54,7 @@ public class ReceivingAcceptanceAdapter extends RecyclerAdapter<ReceivingAccepta
     }
 
     @Override
-    protected void onBindViewHolder(RecyclerViewHolder holder, int position, ReceivingAcceptanceOrderEntity item) {
+    protected void onBindViewHolder(RecyclerViewHolder holder, int position, ReceivingItemEntity item) {
         TextView name = holder.get(R.id.receiving_acceptance_goods_name);
         KeyValueTextView billNo = holder.get(R.id.receiving_acceptance_bill_number);
         KeyValueTextView lotNo = holder.get(R.id.receiving_acceptance_lot_number);
@@ -105,7 +105,7 @@ public class ReceivingAcceptanceAdapter extends RecyclerAdapter<ReceivingAccepta
             }
 
             if (Validator.isEmpty(prefix)) {
-                final ArrayList<ReceivingAcceptanceOrderEntity> list;
+                final ArrayList<ReceivingItemEntity> list;
                 synchronized (mLock) {
                     list = new ArrayList<>(mOriginalValues);
                 }
@@ -114,16 +114,16 @@ public class ReceivingAcceptanceAdapter extends RecyclerAdapter<ReceivingAccepta
             } else {
                 final String prefixString = prefix.toString().toLowerCase();
 
-                final ArrayList<ReceivingAcceptanceOrderEntity> values;
+                final ArrayList<ReceivingItemEntity> values;
                 synchronized (mLock) {
                     values = new ArrayList<>(mOriginalValues);
                 }
 
                 final int count = values.size();
-                final ArrayList<ReceivingAcceptanceOrderEntity> newValues = new ArrayList<>();
+                final ArrayList<ReceivingItemEntity> newValues = new ArrayList<>();
 
                 for (int i = 0; i < count; i++) {
-                    final ReceivingAcceptanceOrderEntity value = values.get(i);
+                    final ReceivingItemEntity value = values.get(i);
                     final String valueText = value.getBarcode().toLowerCase();
                     if (valueText.contains(prefixString)) {
                         newValues.add(value);
@@ -139,7 +139,7 @@ public class ReceivingAcceptanceAdapter extends RecyclerAdapter<ReceivingAccepta
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //noinspection unchecked
-            replaces((List<ReceivingAcceptanceOrderEntity>) results.values);
+            replaces((List<ReceivingItemEntity>) results.values);
         }
     }
 }

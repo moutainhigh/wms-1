@@ -1,4 +1,4 @@
-package com.teeny.wms.page.acceptance;
+package com.teeny.wms.page.receiving;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,13 +19,13 @@ import com.teeny.wms.base.ToolbarActivity;
 import com.teeny.wms.base.decoration.VerticalDecoration;
 import com.teeny.wms.datasouce.net.NetServiceManager;
 import com.teeny.wms.datasouce.net.ResponseSubscriber;
-import com.teeny.wms.datasouce.net.service.AcceptanceService;
-import com.teeny.wms.model.AcceptanceLotEntity;
+import com.teeny.wms.datasouce.net.service.ReceivingService;
+import com.teeny.wms.model.ReceivingLotEntity;
 import com.teeny.wms.model.EmptyEntity;
-import com.teeny.wms.model.ReceivingAcceptanceOrderEntity;
+import com.teeny.wms.model.ReceivingItemEntity;
 import com.teeny.wms.model.ResponseEntity;
-import com.teeny.wms.model.request.AcceptanceRequestEntity;
-import com.teeny.wms.page.acceptance.adapter.AcceptanceLotAdapter;
+import com.teeny.wms.model.request.ReceivingRequestEntity;
+import com.teeny.wms.page.receiving.adapter.AcceptanceLotAdapter;
 import com.teeny.wms.page.document.controller.DocumentHelper;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.pop.Toaster;
@@ -54,17 +54,17 @@ public class ReceivingAcceptanceOrderDetailActivity extends ToolbarActivity impl
     private static final String KEY_ENTITY = "entity";
     private static final int INVALID_POSITION = -1;
 
-    public static void startActivity(Context context, ReceivingAcceptanceOrderEntity entity) {
+    public static void startActivity(Context context, ReceivingItemEntity entity) {
         Intent intent = new Intent();
         intent.setClass(context, ReceivingAcceptanceOrderDetailActivity.class);
         intent.putExtra(KEY_ENTITY, entity);
         context.startActivity(intent);
     }
 
-    private ReceivingAcceptanceOrderEntity mEntity;
+    private ReceivingItemEntity mEntity;
     private AcceptanceLotAdapter mAdapter;
 
-    private AcceptanceService mService;
+    private ReceivingService mService;
 
     private int mSelectPosition = INVALID_POSITION;
     private int mDeletePosition = INVALID_POSITION;
@@ -103,7 +103,7 @@ public class ReceivingAcceptanceOrderDetailActivity extends ToolbarActivity impl
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLotAdd(AcceptanceLotEntity entity) {
+    public void onLotAdd(ReceivingLotEntity entity) {
         if (mSelectPosition != INVALID_POSITION) {
             mAdapter.update(entity, mSelectPosition);
         } else {
@@ -141,16 +141,16 @@ public class ReceivingAcceptanceOrderDetailActivity extends ToolbarActivity impl
         mDeleteDialog = DialogFactory.createAlertDialog(this, getString(R.string.prompt_delete_confirm), this);
         mDeleteDialog.setOnDismissListener(dialog -> mDeletePosition = INVALID_POSITION);
 
-        mService = NetServiceManager.getInstance().getService(AcceptanceService.class);
+        mService = NetServiceManager.getInstance().getService(ReceivingService.class);
 
         getLotList();
     }
 
     private void getLotList() {
-        Flowable<ResponseEntity<List<AcceptanceLotEntity>>> flowable = mService.getLotList(mEntity.getOriginalId());
-        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<List<AcceptanceLotEntity>>(this) {
+        Flowable<ResponseEntity<List<ReceivingLotEntity>>> flowable = mService.getLotList(mEntity.getOriginalId());
+        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<List<ReceivingLotEntity>>(this) {
             @Override
-            public void doNext(List<AcceptanceLotEntity> data) {
+            public void doNext(List<ReceivingLotEntity> data) {
                 mAdapter.setItems(data);
             }
 
@@ -171,12 +171,12 @@ public class ReceivingAcceptanceOrderDetailActivity extends ToolbarActivity impl
     }
 
     private void complete() {
-        List<AcceptanceLotEntity> result = mAdapter.getItems();
+        List<ReceivingLotEntity> result = mAdapter.getItems();
         if (Validator.isEmpty(result)) {
             Toaster.showToast("请添加批号.");
             return;
         }
-        AcceptanceRequestEntity entity = new AcceptanceRequestEntity();
+        ReceivingRequestEntity entity = new ReceivingRequestEntity();
         entity.setId(mEntity.getOriginalId());
         entity.setParam(result);
         entity.setSmbId(mEntity.getId());
@@ -200,7 +200,7 @@ public class ReceivingAcceptanceOrderDetailActivity extends ToolbarActivity impl
 
     public void onItemClick(View view, int position) {
         mSelectPosition = position;
-        AcceptanceLotEntity entity = mAdapter.getItem(position);
+        ReceivingLotEntity entity = mAdapter.getItem(position);
         AcceptanceLotAddActivity.startActivity(this, entity);
     }
 

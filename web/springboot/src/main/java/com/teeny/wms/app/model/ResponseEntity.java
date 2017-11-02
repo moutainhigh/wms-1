@@ -17,11 +17,12 @@ public class ResponseEntity<T> {
     private T data;
 
     public ResponseEntity() {
+        this.code = 0;
+        this.message = MSG_SUCCESS;
     }
 
     public ResponseEntity(T data) {
-        this.code = 0;
-        this.message = MSG_SUCCESS;
+        this();
         this.data = data;
     }
 

@@ -1,6 +1,6 @@
 package com.teeny.wms.model.request;
 
-import com.teeny.wms.model.AcceptanceLotEntity;
+import com.teeny.wms.model.ReceivingLotEntity;
 
 import java.util.List;
 
@@ -9,15 +9,15 @@ import java.util.List;
  *
  * @author zp
  * @version 1.0
- * @see AcceptanceRequestEntity
+ * @see ReceivingRequestEntity
  * @since 2017/8/24
  */
 
-public class AcceptanceRequestEntity {
+public class ReceivingRequestEntity {
 
     private int id;
     private int smbId;
-    private List<AcceptanceLotEntity> param;
+    private List<ReceivingLotEntity> param;
 
     public int getId() {
         return id;
@@ -35,11 +35,11 @@ public class AcceptanceRequestEntity {
         this.smbId = smbId;
     }
 
-    public List<AcceptanceLotEntity> getParam() {
+    public List<ReceivingLotEntity> getParam() {
         return param;
     }
 
-    public void setParam(List<AcceptanceLotEntity> param) {
+    public void setParam(List<ReceivingLotEntity> param) {
         this.param = param;
     }
 }

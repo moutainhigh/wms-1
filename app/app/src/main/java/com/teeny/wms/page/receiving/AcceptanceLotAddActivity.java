@@ -1,4 +1,4 @@
-package com.teeny.wms.page.acceptance;
+package com.teeny.wms.page.receiving;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.teeny.wms.R;
 import com.teeny.wms.base.ToolbarActivity;
-import com.teeny.wms.model.AcceptanceLotEntity;
+import com.teeny.wms.model.ReceivingLotEntity;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.pop.Toaster;
 import com.teeny.wms.util.Converter;
@@ -40,18 +40,18 @@ public class AcceptanceLotAddActivity extends ToolbarActivity implements DatePic
     public static final String KEY_FLAG = "flag";
 
     public static void startActivity(Context context, float rate, String zhUnit, String lhUnit) {
-        AcceptanceLotEntity entity = new AcceptanceLotEntity();
+        ReceivingLotEntity entity = new ReceivingLotEntity();
         entity.setRate(rate);
         entity.setZhUnit(zhUnit);
         entity.setLhUnit(lhUnit);
         startActivity(context, entity, false);
     }
 
-    public static void startActivity(Context context, AcceptanceLotEntity entity) {
+    public static void startActivity(Context context, ReceivingLotEntity entity) {
         startActivity(context, entity, true);
     }
 
-    private static void startActivity(Context context, AcceptanceLotEntity entity, boolean init) {
+    private static void startActivity(Context context, ReceivingLotEntity entity, boolean init) {
         Intent intent = new Intent();
         intent.setClass(context, AcceptanceLotAddActivity.class);
         intent.putExtra(KEY_DATA, entity);
@@ -71,7 +71,7 @@ public class AcceptanceLotAddActivity extends ToolbarActivity implements DatePic
     private TextInputLayout mZHLayout;
     private TextInputEditText mZHEdit;
 
-    private AcceptanceLotEntity mEntity;
+    private ReceivingLotEntity mEntity;
     private TextView mDateTextView;
     private DatePickerDialog mDatePickerDialog;
 
@@ -201,7 +201,7 @@ public class AcceptanceLotAddActivity extends ToolbarActivity implements DatePic
         }
         String date = mDateTextView.getText().toString();
         if (mEntity == null) {
-            mEntity = new AcceptanceLotEntity();
+            mEntity = new ReceivingLotEntity();
         }
         mEntity.setLotNo(number);
         mEntity.setSerialNo(Converter.toInt(serial));

@@ -26,7 +26,7 @@ import com.teeny.wms.datasouce.net.service.HomeService;
 import com.teeny.wms.model.FunctionEntity;
 import com.teeny.wms.model.KeyValueEntity;
 import com.teeny.wms.model.ResponseEntity;
-import com.teeny.wms.page.acceptance.ReceivingAcceptanceActivity;
+import com.teeny.wms.page.receiving.ReceivingAcceptanceActivity;
 import com.teeny.wms.page.allot.AllotListActivity;
 import com.teeny.wms.page.document.QueryDocumentActivity;
 import com.teeny.wms.page.document.controller.DocumentHelper;

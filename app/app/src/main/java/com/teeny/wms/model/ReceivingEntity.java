@@ -7,18 +7,18 @@ import java.util.List;
  *
  * @author zp
  * @version 1.0
- * @see ReceivingAcceptanceEntity
+ * @see ReceivingEntity
  * @since 2017/8/10
  */
 
-public class ReceivingAcceptanceEntity {
+public class ReceivingEntity {
 
     private int orderId;
     private String status;
     private String billNo;
     private String buyer;
     private String buyerId;
-    private List<ReceivingAcceptanceOrderEntity> goodsList;
+    private List<ReceivingItemEntity> goodsList;
 
     public int getOrderId() {
         return orderId;
@@ -60,11 +60,11 @@ public class ReceivingAcceptanceEntity {
         this.buyerId = buyerId;
     }
 
-    public List<ReceivingAcceptanceOrderEntity> getGoodsList() {
+    public List<ReceivingItemEntity> getGoodsList() {
         return goodsList;
     }
 
-    public void setGoodsList(List<ReceivingAcceptanceOrderEntity> goodsList) {
+    public void setGoodsList(List<ReceivingItemEntity> goodsList) {
         this.goodsList = goodsList;
     }
 }

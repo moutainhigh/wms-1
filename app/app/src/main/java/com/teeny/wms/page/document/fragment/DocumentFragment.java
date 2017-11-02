@@ -16,7 +16,7 @@ import com.teeny.wms.base.BaseFragment;
 import com.teeny.wms.base.RecyclerViewTouchListener;
 import com.teeny.wms.base.decoration.VerticalDecoration;
 import com.teeny.wms.model.DocumentEntity;
-import com.teeny.wms.page.acceptance.ReceivingAcceptanceActivity;
+import com.teeny.wms.page.receiving.ReceivingAcceptanceActivity;
 import com.teeny.wms.page.allot.AllotListActivity;
 import com.teeny.wms.page.document.adapter.DocumentAdapter;
 import com.teeny.wms.page.document.controller.DocumentHelper;

@@ -1,4 +1,4 @@
-package com.teeny.wms.page.acceptance;
+package com.teeny.wms.page.receiving;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,15 +28,15 @@ import com.teeny.wms.base.KeyValueMultipleChoiceAdapter;
 import com.teeny.wms.base.ToolbarActivity;
 import com.teeny.wms.datasouce.net.NetServiceManager;
 import com.teeny.wms.datasouce.net.ResponseSubscriber;
-import com.teeny.wms.datasouce.net.service.AcceptanceService;
+import com.teeny.wms.datasouce.net.service.ReceivingService;
 import com.teeny.wms.model.DocumentEntity;
 import com.teeny.wms.model.KeyValueEntity;
-import com.teeny.wms.model.ReceivingAcceptanceEntity;
-import com.teeny.wms.model.ReceivingAcceptanceOrderEntity;
+import com.teeny.wms.model.ReceivingEntity;
+import com.teeny.wms.model.ReceivingItemEntity;
 import com.teeny.wms.model.ResponseEntity;
-import com.teeny.wms.page.acceptance.adapter.ReceivingAcceptanceAdapter;
-import com.teeny.wms.page.acceptance.fragment.OrderDetailFragment;
-import com.teeny.wms.page.acceptance.helper.AcceptanceHelper;
+import com.teeny.wms.page.receiving.adapter.ReceivingAcceptanceAdapter;
+import com.teeny.wms.page.receiving.fragment.OrderDetailFragment;
+import com.teeny.wms.page.receiving.helper.AcceptanceHelper;
 import com.teeny.wms.page.common.adapter.KeyValueListAdapter;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.pop.Toaster;
@@ -90,7 +90,7 @@ public class ReceivingAcceptanceActivity extends ToolbarActivity implements Base
     private TextView mStatusTextView;
     private TextView mBuyerTextView;
 
-    private AcceptanceService mService;
+    private ReceivingService mService;
 
     private AcceptanceHelper mHelper;
     private DocumentEntity mDocumentEntity;
@@ -217,7 +217,7 @@ public class ReceivingAcceptanceActivity extends ToolbarActivity implements Base
         mStatusTextView = (TextView) findViewById(R.id.receiving_acceptance_order_status);
         mBuyerTextView = (TextView) findViewById(R.id.receiving_acceptance_salesman);
 
-        mService = NetServiceManager.getInstance().getService(AcceptanceService.class);
+        mService = NetServiceManager.getInstance().getService(ReceivingService.class);
 
         mHelper = new AcceptanceHelper();
         mScannerHelper.openScanner(this, this::handleScannerResult);
@@ -247,10 +247,10 @@ public class ReceivingAcceptanceActivity extends ToolbarActivity implements Base
     }
 
     private void obtainDataByNumber() {
-        Flowable<ResponseEntity<List<ReceivingAcceptanceEntity>>> flowable = mService.getDetailOrderNo(mDocumentEntity.getNumber());
-        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<List<ReceivingAcceptanceEntity>>(this) {
+        Flowable<ResponseEntity<List<ReceivingEntity>>> flowable = mService.getDetailOrderNo(mDocumentEntity.getNumber());
+        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<List<ReceivingEntity>>(this) {
             @Override
-            public void doNext(List<ReceivingAcceptanceEntity> data) {
+            public void doNext(List<ReceivingEntity> data) {
                 mHelper.setDataSource(data);
                 mHelper.filterByOrder(new long[]{mDocumentEntity.getId()});
             }
@@ -265,7 +265,7 @@ public class ReceivingAcceptanceActivity extends ToolbarActivity implements Base
 
     private void handleScannerResult(String result) {
         mGoodsScanTextView.setText(result);
-        ReceivingAcceptanceOrderEntity entity = mHelper.findByCode(result);
+        ReceivingItemEntity entity = mHelper.findByCode(result);
         if (entity == null) {
             Toaster.showToast("所选单据中未找到该商品.");
         } else {
@@ -313,10 +313,10 @@ public class ReceivingAcceptanceActivity extends ToolbarActivity implements Base
     }
 
     private void obtainData() {
-        Flowable<ResponseEntity<List<ReceivingAcceptanceEntity>>> flowable = mService.getDetail(mSelectUnitId);
-        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<List<ReceivingAcceptanceEntity>>(this) {
+        Flowable<ResponseEntity<List<ReceivingEntity>>> flowable = mService.getDetail(mSelectUnitId);
+        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<List<ReceivingEntity>>(this) {
             @Override
-            public void doNext(List<ReceivingAcceptanceEntity> data) {
+            public void doNext(List<ReceivingEntity> data) {
                 mHelper.setDataSource(data);
                 if (Validator.isEmpty(data)) {
                     Toaster.showToast("该单位下没有订单.");

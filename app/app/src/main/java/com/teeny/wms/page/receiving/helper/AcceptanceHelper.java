@@ -1,10 +1,10 @@
-package com.teeny.wms.page.acceptance.helper;
+package com.teeny.wms.page.receiving.helper;
 
 import android.support.v4.util.SparseArrayCompat;
 
 import com.teeny.wms.model.KeyValueEntity;
-import com.teeny.wms.model.ReceivingAcceptanceEntity;
-import com.teeny.wms.model.ReceivingAcceptanceOrderEntity;
+import com.teeny.wms.model.ReceivingEntity;
+import com.teeny.wms.model.ReceivingItemEntity;
 import com.teeny.wms.util.CollectionsUtils;
 import com.teeny.wms.util.ObjectUtils;
 import com.teeny.wms.util.Validator;
@@ -25,17 +25,17 @@ import java.util.List;
 
 public class AcceptanceHelper {
 
-    private List<ReceivingAcceptanceEntity> mOriginalData;
-    private SparseArrayCompat<List<ReceivingAcceptanceOrderEntity>> mDataHolder;
+    private List<ReceivingEntity> mOriginalData;
+    private SparseArrayCompat<List<ReceivingItemEntity>> mDataHolder;
     private EventBus mEventBus = EventBus.getDefault();
 
-    private List<ReceivingAcceptanceEntity> mDataSource;
+    private List<ReceivingEntity> mDataSource;
 
     public AcceptanceHelper() {
         mDataHolder = new SparseArrayCompat<>();
     }
 
-    public void setDataSource(List<ReceivingAcceptanceEntity> dataSource) {
+    public void setDataSource(List<ReceivingEntity> dataSource) {
         mDataSource = dataSource;
         if (mDataSource == null) {
             mDataSource = new ArrayList<>();
@@ -47,13 +47,13 @@ public class AcceptanceHelper {
 
     public String getStatus() {
         String status = "验收中";
-//        List<ReceivingAcceptanceEntity> list;
+//        List<ReceivingEntity> list;
 //        if (Validator.isNotNull(mOriginalData)) {
 //            list = mOriginalData;
 //        } else {
 //            list = mDataSource;
 //        }
-//        for (ReceivingAcceptanceEntity entity : list) {
+//        for (ReceivingEntity entity : list) {
 //
 //        }
         return status;
@@ -64,7 +64,7 @@ public class AcceptanceHelper {
             return "";
         }
         List<String> names = new ArrayList<>();
-        for (ReceivingAcceptanceEntity entity : mDataSource) {
+        for (ReceivingEntity entity : mDataSource) {
             String name = entity.getBuyer();
             if (!names.contains(name)) {
                 names.add(name);
@@ -86,14 +86,14 @@ public class AcceptanceHelper {
 
     public List<KeyValueEntity> getOrderList() {
         List<KeyValueEntity> result = new ArrayList<>();
-        List<ReceivingAcceptanceEntity> source;
+        List<ReceivingEntity> source;
         if (Validator.isNotNull(mOriginalData)) {
             source = mOriginalData;
         } else {
             source = mDataSource;
         }
         if (Validator.isNotEmpty(source)) {
-            for (ReceivingAcceptanceEntity entity : source) {
+            for (ReceivingEntity entity : source) {
                 result.add(new KeyValueEntity(entity.getOrderId(), entity.getBillNo()));
             }
         }
@@ -122,12 +122,12 @@ public class AcceptanceHelper {
             mOriginalData = new ArrayList<>(mDataSource);
         }
 
-        List<ReceivingAcceptanceEntity> values = new ArrayList<>(mOriginalData);
+        List<ReceivingEntity> values = new ArrayList<>(mOriginalData);
         final int count = values.size();
-        final ArrayList<ReceivingAcceptanceEntity> newValues = new ArrayList<>();
+        final ArrayList<ReceivingEntity> newValues = new ArrayList<>();
         for (long id : select) {
             for (int i = 0; i < count; i++) {
-                ReceivingAcceptanceEntity value = values.get(i);
+                ReceivingEntity value = values.get(i);
                 if (id == value.getOrderId()) {
                     newValues.add(value);
                     break;
@@ -150,8 +150,8 @@ public class AcceptanceHelper {
         mEventBus.post(this);
     }
 
-    public List<ReceivingAcceptanceOrderEntity> getDataByType(int type) {
-        List<ReceivingAcceptanceOrderEntity> result = mDataHolder.get(type);
+    public List<ReceivingItemEntity> getDataByType(int type) {
+        List<ReceivingItemEntity> result = mDataHolder.get(type);
         if (result == null) {
             result = findDataByType(type);
             mDataHolder.put(type, result);
@@ -159,17 +159,17 @@ public class AcceptanceHelper {
         return result;
     }
 
-    private List<ReceivingAcceptanceOrderEntity> findDataByType(int type) {
-        List<ReceivingAcceptanceOrderEntity> result = new ArrayList<>();
+    private List<ReceivingItemEntity> findDataByType(int type) {
+        List<ReceivingItemEntity> result = new ArrayList<>();
         if (Validator.isEmpty(mDataSource)) {
             return result;
         }
-        for (ReceivingAcceptanceEntity entity : mDataSource) {
-            List<ReceivingAcceptanceOrderEntity> list = entity.getGoodsList();
+        for (ReceivingEntity entity : mDataSource) {
+            List<ReceivingItemEntity> list = entity.getGoodsList();
             if (Validator.isEmpty(list)) {
                 continue;
             }
-            for (ReceivingAcceptanceOrderEntity e : list) {
+            for (ReceivingItemEntity e : list) {
                 if (e.getStatus() == type) {
                     result.add(e);
                 }
@@ -178,13 +178,13 @@ public class AcceptanceHelper {
         return result;
     }
 
-    public ReceivingAcceptanceOrderEntity findByCode(String code) {
+    public ReceivingItemEntity findByCode(String code) {
         if (Validator.isNotEmpty(mDataSource)) {
-            List<ReceivingAcceptanceEntity> list = mDataSource;
-            for (ReceivingAcceptanceEntity entity : list) {
-                List<ReceivingAcceptanceOrderEntity> l = entity.getGoodsList();
+            List<ReceivingEntity> list = mDataSource;
+            for (ReceivingEntity entity : list) {
+                List<ReceivingItemEntity> l = entity.getGoodsList();
                 if (Validator.isNotEmpty(l)) {
-                    for (ReceivingAcceptanceOrderEntity e : l) {
+                    for (ReceivingItemEntity e : l) {
                         if (ObjectUtils.equals(code, e.getBarcode())) {
                             return e;
                         }
