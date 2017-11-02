@@ -47,7 +47,7 @@ public interface ReceivingService {
      * @return List<ReceivingEntity>
      */
     @GET("acceptance/detail")
-    Flowable<ResponseEntity<List<ReceivingEntity>>> getDetailOrderNo(@Query("billNo") String billNo);
+    Flowable<ResponseEntity<List<ReceivingEntity>>> getDetailOrderNo(@Query("orderNo") String billNo);
 
     @GET("acceptance/lots/{id}")
     Flowable<ResponseEntity<List<ReceivingLotEntity>>> getLotList(@Path("id") int id);

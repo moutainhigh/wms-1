@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @since 2017/10/19
  */
 
-public class InnerException extends Exception {
+public class InnerException extends RuntimeException {
 
     public InnerException(String message) {
         super(message);

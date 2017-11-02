@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
  *
  * @author zp
  * @version 1.0
- * @see UserRepository
+ * @see UserMapper
  * @since 2017/10/19
  */
 @Repository
 @Mapper
-public interface UserRepository {
+public interface UserMapper {
     UserEntity getUser(@Param("id") int id);
 }

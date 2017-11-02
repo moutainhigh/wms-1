@@ -1,5 +1,7 @@
 package com.teeny.wms.web.model.dto;
 
+import org.apache.ibatis.type.Alias;
+
 /**
  * Class description:
  *
@@ -8,6 +10,8 @@ package com.teeny.wms.web.model.dto;
  * @see ReceivingItemEntity
  * @since 2017/11/1
  */
+
+@Alias("ReceivingItemEntity")
 public class ReceivingItemEntity {
 
     private int id;//id 1

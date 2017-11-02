@@ -4,7 +4,9 @@ import com.teeny.wms.app.model.KeyValueEntity;
 import com.teeny.wms.web.model.dto.ReceivingEntity;
 import com.teeny.wms.web.model.dto.ReceivingLotEntity;
 import com.teeny.wms.web.model.request.ReceivingRequestEntity;
+import com.teeny.wms.web.repository.ReceivingMapper;
 import com.teeny.wms.web.service.ReceivingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,24 +21,32 @@ import java.util.List;
  */
 @Service
 public class ReceivingServiceImpl implements ReceivingService {
+
+    private ReceivingMapper mReceivingMapper;
+
+    @Autowired
+    public void setReceivingMapper(ReceivingMapper receivingMapper) {
+        mReceivingMapper = receivingMapper;
+    }
+
     @Override
     public List<KeyValueEntity> getUnitList(String account, int sId) {
-        return null;
+        return mReceivingMapper.getUnitList(account, sId);
     }
 
     @Override
     public List<ReceivingEntity> getDetailByUnitId(String account, int unitId) {
-        return null;
+        return mReceivingMapper.getDetailByUnitId(account, unitId);
     }
 
     @Override
     public List<ReceivingEntity> getDetailByOrderNo(String account, String orderNo) {
-        return null;
+        return mReceivingMapper.getDetailByOrderNo(account, orderNo);
     }
 
     @Override
     public List<ReceivingLotEntity> getLotList(String account, int id) {
-        return null;
+        return mReceivingMapper.getLotList(account, id);
     }
 
     @Override

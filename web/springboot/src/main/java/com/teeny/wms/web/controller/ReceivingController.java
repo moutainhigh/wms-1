@@ -33,7 +33,7 @@ public class ReceivingController {
     }
 
     @GetMapping("/units")
-    public ResponseEntity<List<KeyValueEntity>> getUnitList(@RequestHeader("account") String account, @RequestHeader("sId") int id) {
+    public ResponseEntity<List<KeyValueEntity>> getUnitList(@RequestHeader("account") String account, @RequestHeader(value = "sId", required = false, defaultValue = "0") int id) {
         List<KeyValueEntity> list = mReceivingService.getUnitList(account, id);
         return new ResponseEntity<>(list);
     }
@@ -57,7 +57,7 @@ public class ReceivingController {
      * @return List<ReceivingAcceptanceEntity>
      */
     @GetMapping("/detail")
-    public ResponseEntity<List<ReceivingEntity>> getDetailByOrderNo(@RequestHeader("account") String account, @RequestParam("billNo") String orderNo) {
+    public ResponseEntity<List<ReceivingEntity>> getDetailByOrderNo(@RequestHeader("account") String account, @RequestParam("orderNo") String orderNo) {
         List<ReceivingEntity> list = mReceivingService.getDetailByOrderNo(account, orderNo);
         return new ResponseEntity<>(list);
     }

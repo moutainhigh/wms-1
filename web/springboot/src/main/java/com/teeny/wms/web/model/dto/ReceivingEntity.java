@@ -1,5 +1,7 @@
 package com.teeny.wms.web.model.dto;
 
+import org.apache.ibatis.type.Alias;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,8 @@ import java.util.List;
  * @see ReceivingEntity
  * @since 2017/11/1
  */
+
+@Alias("ReceivingEntity")
 public class ReceivingEntity {
 
     private int orderId;
@@ -17,6 +21,7 @@ public class ReceivingEntity {
     private String billNo;
     private String buyer;
     private String buyerId;
+    private String unitName; //单位名字
     private List<ReceivingItemEntity> goodsList;
 
     public int getOrderId() {
@@ -57,6 +62,14 @@ public class ReceivingEntity {
 
     public void setBuyerId(String buyerId) {
         this.buyerId = buyerId;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
     }
 
     public List<ReceivingItemEntity> getGoodsList() {

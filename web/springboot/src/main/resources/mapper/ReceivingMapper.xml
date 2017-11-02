@@ -3,12 +3,103 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.teeny.wms.web.repository.UserRepository">
-    <select id="getUser" resultType="com.teeny.wms.web.model.UserEntity">
+<mapper namespace="com.teeny.wms.web.repository.ReceivingMapper">
+    <resultMap id="units" type="keyValue">
+        <id column="c_id" property="key" javaType="int"/>
+        <result column="name" property="value"/>
+    </resultMap>
+
+    <select id="getUnitList" resultMap="units">
+        SELECT DISTINCT
+        b.c_id,
+        c.name
+        FROM ${account}.dbo.pda_RecBill b
+        LEFT JOIN ${account}.dbo.pda_clients c ON b.c_id = c.c_id
+        WHERE b.billstates = 10
+        <if test="sId != 0">
+            AND b.s_id = #{sId}
+        </if>
+    </select>
+
+    <resultMap id="detail" type="ReceivingEntity">
+        <result column="billid" property="orderId"/>
+        <result column="billnumber" property="billNo"/>
+        <result column="e_id" property="buyerId"/>
+        <result column="buyer" property="buyer"/>
+        <result column="unitName" property="unitName"/>
+        <collection property="goodsList" javaType="ArrayList" ofType="ReceivingItemEntity"
+                    column="{account = account, orderId = billid}"
+                    select="com.teeny.wms.web.repository.ReceivingMapper.getReceivingItem"/>
+    </resultMap>
+
+    <select id="getDetailByUnitId" resultMap="detail">
         SELECT
-            e.pinyin AS username,
-            e.password
-        FROM pda_employees e
-        WHERE e.e_id = #{id}
+            b.billid,
+            b.billnumber,
+            b.e_id,
+            e.name     AS buyer,
+            c.name     AS unitName,
+            #{account} AS account
+        FROM ${account}.dbo.pda_RecBill b
+            LEFT JOIN ${account}.dbo.pda_employees e ON b.e_id = e.e_id
+            LEFT JOIN ${account}.dbo.pda_clients c ON c.c_id = b.c_id
+        WHERE b.c_id = #{unitId} AND b.billstates = 10 AND b.pdastates != 2
+    </select>
+
+    <select id="getDetailByOrderNo" resultMap="detail">
+        SELECT
+            b.billid,
+            b.billnumber,
+            b.e_id,
+            e.name     AS buyer,
+            c.name     AS unitName,
+            #{account} AS account
+        FROM ${account}.dbo.pda_RecBill b
+            LEFT JOIN ${account}.dbo.pda_employees e ON b.e_id = e.e_id
+            LEFT JOIN ${account}.dbo.pda_clients c ON c.c_id = b.c_id
+        WHERE b.billstates = 10 AND b.pdastates != 2 AND b.c_id = (SELECT c_id FROM ${account}.dbo.pda_RecBill WHERE billnumber = #{orderNo})
+
+    </select>
+
+    <select id="getReceivingItem" resultType="ReceivingItemEntity">
+        SELECT
+            d.smb_id                               AS id,
+            d.original_id                          AS originalId,
+            b.billnumber                           AS billNo,
+            d.TaxPrice                             AS retailPrice,
+            d.Yqty                                 AS amount,
+            d.EligibleQty                          AS quantity,
+            c.name                                 AS manufacturer,
+            d.Batchno                              AS lotNo,
+            p.name                                 AS goodsName,
+            p.standard                             AS specification,
+            CONVERT(VARCHAR(100), d.Validdate, 23) AS validityDate,
+            CONVERT(VARCHAR(100), p.makearea, 23)  AS produceArea,
+            p.barcode                              AS barcode,
+            d.DealStates                           AS status,
+            p.WholeUnitName                        AS zhUnit,
+            p.unit1Name                            AS lhUnit,
+            p.WholeRate                            AS rate
+        FROM ${account}.dbo.pda_RecBill_D d
+            LEFT JOIN ${account}.dbo.pda_RecBill b ON b.billid = d.bill_id
+            LEFT JOIN ${account}.dbo.pda_Products p ON d.p_id = p.p_id
+            LEFT JOIN ${account}.dbo.pda_clients c ON c.c_id = d.Supplier_id
+        WHERE d.bill_id = #{orderId} AND d.pdastates = 0
+    </select>
+
+    <select id="getLotList" resultType="ReceivingLotEntity">
+        SELECT
+            d.Batchno                                AS lotNo,
+            CONVERT(VARCHAR (100), d.Validdate, 23)  AS validityDate,
+            d.TaxPrice                               AS price,
+            d.rownumber                              AS serialNo,
+            d.WholeQty                               AS zhAmount,
+            p.WholeUnitName                          AS zhUnit,
+            d.retailQty                              AS lhAmount,
+            p.unit1Name                              AS lhUnit,
+            p.WholeRate                              AS rate
+        FROM ${account}.dbo.pda_RecBill_D d
+            LEFT JOIN ${account}.dbo.pda_Products p ON d.p_id = p.p_id
+        WHERE d.DealStates = 1 AND d.original_id = #{id}
     </select>
 </mapper>
