@@ -1,6 +1,6 @@
 server:
   port: 8080
-  address: localhost
+  address: 192.168.31.60
   context-path: /wms
 
 logging:
@@ -13,12 +13,12 @@ logging:
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    url: jdbc:sqlserver://yyt8812.gnway.cc:1344;databaseName=yytsy
-#    username: sa
-#    password: yyt@123
-    url: jdbc:sqlserver://localhost;databaseName=yyt
+    url: jdbc:sqlserver://yyt8812.gnway.cc:1344;databaseName=yytsy
     username: sa
-    password: zhupeng123
+    password: yyt@123
+#    url: jdbc:sqlserver://localhost;databaseName=yyt
+#    username: sa
+#    password: zhupeng123
     name: wms
     type: com.alibaba.druid.pool.DruidDataSource
     #连接池的配置信息

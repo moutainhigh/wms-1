@@ -1,5 +1,7 @@
 package com.teeny.wms.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Class description:
  *
@@ -11,7 +13,9 @@ package com.teeny.wms.model;
 
 public class AccountSetEntity {
 
+    @SerializedName(value = "databaseName", alternate = {"key"})
     private String databaseName;
+    @SerializedName(value = "accountSetName", alternate = {"value"})
     private String accountSetName;
 
     public String getDatabaseName() {

@@ -13,9 +13,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class KeyValueEntity {
 
-    @SerializedName("id")
+    @SerializedName(value = "key", alternate = {"id"})
     private int key;
-    @SerializedName("name")
+    @SerializedName(value = "value", alternate = {"name"})
     private String value;
 
     public KeyValueEntity() {

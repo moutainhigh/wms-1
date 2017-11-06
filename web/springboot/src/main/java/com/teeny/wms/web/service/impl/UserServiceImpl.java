@@ -1,10 +1,6 @@
 package com.teeny.wms.web.service.impl;
 
-import com.teeny.wms.web.model.UserEntity;
 import com.teeny.wms.web.service.UserService;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,8 +14,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new UserEntity();
-    }
+
 }

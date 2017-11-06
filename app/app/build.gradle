@@ -7,7 +7,7 @@ android {
         release {
             keyAlias 'wms'
             keyPassword '123456'
-            storeFile file('D:/Workspace/key store/teeny.jks')
+            storeFile file('/workspace/wms-app/key store/teeny.jks')
             storePassword '123456'
         }
     }

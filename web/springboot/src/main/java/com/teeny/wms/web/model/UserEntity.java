@@ -1,15 +1,5 @@
 package com.teeny.wms.web.model;
 
-import com.teeny.wms.app.config.security.WebSecurityConfiguration;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 /**
  * Class description:
  *
@@ -18,7 +8,7 @@ import java.util.List;
  * @see UserEntity
  * @since 2017/10/19
  */
-public class UserEntity implements UserDetails {
+public class UserEntity {
 
     private String username;
     private String password;
@@ -31,20 +21,19 @@ public class UserEntity implements UserDetails {
         this.password = password;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(WebSecurityConfiguration.ROLE_USER);
-        authorities.add(authority);
-        return authorities;
-    }
 
-    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(WebSecurityConfiguration.ROLE_USER);
+//        authorities.add(authority);
+//        return authorities;
+//    }
+
+
     public String getPassword() {
         return "123456";
     }
 
-    @Override
     public String getUsername() {
         return "1";
     }
