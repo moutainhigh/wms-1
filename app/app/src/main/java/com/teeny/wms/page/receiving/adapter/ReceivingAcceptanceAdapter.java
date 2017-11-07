@@ -2,6 +2,7 @@ package com.teeny.wms.page.receiving.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.teeny.wms.R;
 import com.teeny.wms.base.RecyclerAdapter;
 import com.teeny.wms.base.RecyclerViewHolder;
 import com.teeny.wms.model.ReceivingItemEntity;
+import com.teeny.wms.util.ObjectUtils;
 import com.teeny.wms.util.Validator;
 import com.teeny.wms.widget.KeyValueTextView;
 
@@ -124,7 +126,7 @@ public class ReceivingAcceptanceAdapter extends RecyclerAdapter<ReceivingItemEnt
 
                 for (int i = 0; i < count; i++) {
                     final ReceivingItemEntity value = values.get(i);
-                    final String valueText = value.getBarcode().toLowerCase();
+                    final String valueText = ObjectUtils.getString(value.getBarcode()).toLowerCase() + ObjectUtils.getString(value.getPinyin()).toLowerCase();
                     if (valueText.contains(prefixString)) {
                         newValues.add(value);
                     }

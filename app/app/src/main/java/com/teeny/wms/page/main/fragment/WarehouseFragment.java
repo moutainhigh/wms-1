@@ -201,6 +201,24 @@ public class WarehouseFragment extends ToolbarFragment implements View.OnClickLi
             @Override
             public void doComplete() {
                 setLoaded(true);
+                obtainUsername();
+            }
+        });
+    }
+
+    private void obtainUsername() {
+        Flowable<ResponseEntity<String>> flowable = mHomeService.getUsername();
+        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<String>() {
+            @Override
+            public void doNext(String data) {
+                Toolbar toolbar = getToolbar();
+                String title = toolbar.getTitle().toString();
+                toolbar.setTitle(title + "  (" + data + ")");
+            }
+
+            @Override
+            public void doComplete() {
+
             }
         });
     }

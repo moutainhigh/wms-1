@@ -1,8 +1,8 @@
 package com.teeny.wms.web.service;
 
 import com.teeny.wms.app.model.KeyValueEntity;
-import com.teeny.wms.web.model.dto.ReceivingEntity;
-import com.teeny.wms.web.model.dto.ReceivingLotEntity;
+import com.teeny.wms.web.model.response.ReceivingEntity;
+import com.teeny.wms.web.model.response.ReceivingLotEntity;
 import com.teeny.wms.web.model.request.ReceivingRequestEntity;
 
 import java.util.List;

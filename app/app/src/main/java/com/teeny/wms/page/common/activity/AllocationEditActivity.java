@@ -24,6 +24,7 @@ import com.teeny.wms.pop.Toaster;
 import com.teeny.wms.util.Converter;
 import com.teeny.wms.util.Validator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -112,6 +113,7 @@ public class AllocationEditActivity extends ToolbarActivity implements DialogInt
             public void doNext(List<GoodsAllocationEntity> data) {
                 if (Validator.isEmpty(data)) {
                     Toaster.showToast("未获取到历史货位.");
+                    data = new ArrayList<>();
                 }
                 mAlertDialog = DialogFactory.createSingleChoiceDialog(getContext(), getString(R.string.text_history_allocation), data.toArray(), AllocationEditActivity.this);
             }

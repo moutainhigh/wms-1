@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teeny.wms.web.repository.AllotMapper">
+
+    <resultMap id="keyValue" type="keyValue">
+        <id column="id" property="key" javaType="int"/>
+        <result column="name" property="value"/>
+    </resultMap>
+
+    <select id="getList" resultType="AllotEntity">
+        SELECT
+        d.smb_id AS id,
+        d.original_id AS originalId,
+        p.p_id AS goodsId,
+        p.name AS goodsName,
+        d.Batchno AS lotNo,
+        p.standard AS specification,
+        p.Factory AS manufacturer,
+        p.unit1Name AS unit,
+        d.quantity AS amount,
+        CONVERT(VARCHAR (100), d.Validdate, 23) AS validateDate,
+        CONVERT(VARCHAR (100), d.MakeDate, 23) AS productDate,
+        p.barcode,
+        b.billnumber AS billNo,
+        d.DealStates AS status,
+        p.serial_number AS number,
+        l1.loc_code AS exportName,
+        l2.loc_code AS importName
+        FROM ${account}.dbo.pda_TranBill_D d
+        LEFT JOIN ${account}.dbo.pda_Products p ON p.p_id = d.p_id
+        LEFT JOIN ${account}.dbo.pda_TranBill b ON b.billid = d.bill_id
+        LEFT JOIN ${account}.dbo.pda_location l1 ON l1.l_id = d.Location_id
+        LEFT JOIN ${account}.dbo.pda_location l2 ON l2.l_id = d.location_id2
+        WHERE d.DealStates = 0
+        <if test="billNo != null and billNo != ''">
+            AND b.billnumber = #{billNo}
+        </if>
+        <if test="goodsCode != null and goodsCode != ''">
+            AND p.barcode = #{goodsCode}
+        </if>
+        <if test="sId != 0">
+            AND b.sout_id = #{sId}
+        </if>
+        <if test="saId != 0">
+            AND b.sa_outid = #{saId}
+        </if>
+    </select>
+
+    <update id="updateAll">
+        UPDATE ${account}.dbo.pda_TranBill_D
+        SET DealStates = 1, wctime = getdate(), loginid = #{userId}
+        WHERE original_id IN
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+
+        <selectKey keyProperty="count" resultType="int" order="AFTER">
+            SELECT count(*) AS total
+            FROM ${account}.dbo.pda_TranBill_D d
+            WHERE d.DealStates = 0
+            AND d.bill_id = (SELECT DISTINCT d1.bill_id
+            FROM ${account}.dbo.pda_TranBill_D d1
+            WHERE d1.original_id = #{id})
+        </selectKey>
+
+        <if test="count==0">
+            UPDATE ${account}.dbo.pda_TranBill
+            SET billstates = 3
+            WHERE billid = (SELECT DISTINCT d.bill_id
+            FROM ${account}.dbo.pda_TranBill_D d
+            WHERE d.original_id = #{id})
+        </if>
+    </update>
+
+    <update id="updateOne">
+        UPDATE ${account}.dbo.pda_TranBill_D
+        SET DealStates = 1, wctime = getdate(), loginid = #{userId}
+        WHERE original_id = #{id}
+
+        <selectKey keyProperty="count" resultType="int" order="AFTER">
+            SELECT count(*) AS total
+            FROM ${account}.dbo.pda_TranBill_D d
+            WHERE d.DealStates = 0
+            AND d.bill_id = (SELECT DISTINCT d1.bill_id
+            FROM ${account}.dbo.pda_TranBill_D d1
+            WHERE d1.original_id = #{id})
+        </selectKey>
+
+        <if test="count==0">
+            UPDATE ${account}.dbo.pda_TranBill
+            SET billstates = 3
+            WHERE billid = (SELECT DISTINCT d.bill_id
+            FROM ${account}.dbo.pda_TranBill_D d
+            WHERE d.original_id = #{id})
+        </if>
+    </update>
+
+    <select id="getOrderList" resultMap="keyValue">
+        SELECT
+        b.billid AS id,
+        b.billnumber AS name
+        FROM ${account}.dbo.pda_TranBill b
+        <where>
+            <if test="saId!=0">
+                b.sa_outid = #{saId}
+            </if>
+            <if test="sId!=0">
+                AND b.sout_id = #{sId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getGoodsCode" resultMap="keyValue">
+        SELECT DISTINCT
+        d.original_id AS id,
+        p.barcode AS name
+        FROM ${account}.dbo.pda_TranBill_D d
+        INNER JOIN ${account}.dbo.pda_Products p ON d.p_id = p.p_id
+        LEFT JOIN ${account}.dbo.pda_TranBill b ON d.bill_id = b.billid
+        <where>
+            <if test="saId!=0">
+                b.sa_outid = #{saId}
+            </if>
+            <if test="sId!=0">
+                AND b.sout_id = #{sId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByIds">
+        DELETE FROM ${account}.dbo.pda_TranBill_D
+        WHERE original_id = #{originalId}
+        AND smb_id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="updateBillStatus">
+        <selectKey keyProperty="count" resultType="int" order="BEFORE">
+            SELECT count(*) AS total
+            FROM ${account}.dbo.pda_TranBill_D d
+            WHERE d.DealStates=0
+            AND d.bill_id =
+            (SELECT DISTINCT d1.bill_id
+            FROM ${account}.dbo.pda_TranBill_D d1
+            WHERE d1.original_id=#{id})
+        </selectKey>
+
+        <if test="count == 0">
+            UPDATE ${account}.dbo.pda_TranBill
+            SET billstates = 3
+            WHERE billid = (SELECT DISTINCT d.bill_id
+            FROM ${account}.dbo.pda_TranBill_D d
+            WHERE d.original_id = #{id})
+        </if>
+    </update>
+</mapper>

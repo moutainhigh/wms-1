@@ -423,11 +423,16 @@ public class AllotListActivity extends ToolbarActivity implements RecyclerViewTo
     }
 
     private void complete() {
-        if (mAdapter.getItemCount() <= 0) {
+        int count = mAdapter.getItemCount();
+        if (count <= 0) {
             Toaster.showToast("没有可以完成的数据.");
             return;
         }
-        if (mAdapter.getItemCount() > 1) {
+        if (count >= 30) {
+            Toaster.showToast("当前完成条数过多,请到PC端操作.");
+            return;
+        }
+        if (count > 1) {
             mSubmitDialog.show();
         } else {
             submit();

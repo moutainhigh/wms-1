@@ -1,6 +1,7 @@
 package com.teeny.wms.datasouce.net;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.teeny.wms.util.log.Logger;
 
@@ -39,10 +40,12 @@ public class LoggingInterceptor implements Interceptor {
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
     private static final AtomicInteger ID_GENERATOR = new AtomicInteger(0);
+    private static final String TAG = LoggingInterceptor.class.getSimpleName();
 
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
+        Log.e(TAG, "intercept: " + request.url());
         final int id = ID_GENERATOR.incrementAndGet();
         String message;
         message = "[current request count: " + id + " ]" + BR;

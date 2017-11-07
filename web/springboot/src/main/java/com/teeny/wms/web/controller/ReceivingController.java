@@ -3,8 +3,8 @@ package com.teeny.wms.web.controller;
 import com.teeny.wms.app.model.KeyValueEntity;
 import com.teeny.wms.app.model.ResponseEntity;
 import com.teeny.wms.web.model.EmptyEntity;
-import com.teeny.wms.web.model.dto.ReceivingEntity;
-import com.teeny.wms.web.model.dto.ReceivingLotEntity;
+import com.teeny.wms.web.model.response.ReceivingEntity;
+import com.teeny.wms.web.model.response.ReceivingLotEntity;
 import com.teeny.wms.web.model.request.ReceivingRequestEntity;
 import com.teeny.wms.web.service.ReceivingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Class description:
- * 收货
+ * Class description: 收货
  *
  * @author zp
  * @version 1.0
@@ -22,7 +21,7 @@ import java.util.List;
  * @since 2017/11/1
  */
 @RestController
-@RequestMapping("/api/receiving")
+@RequestMapping("/api/acceptance")
 public class ReceivingController {
 
     private ReceivingService mReceivingService;
@@ -32,7 +31,7 @@ public class ReceivingController {
         mReceivingService = receivingService;
     }
 
-    @GetMapping("/units")
+    @GetMapping("/unit")
     public ResponseEntity<List<KeyValueEntity>> getUnitList(@RequestHeader("account") String account, @RequestHeader(value = "sId", required = false, defaultValue = "0") int id) {
         List<KeyValueEntity> list = mReceivingService.getUnitList(account, id);
         return new ResponseEntity<>(list);

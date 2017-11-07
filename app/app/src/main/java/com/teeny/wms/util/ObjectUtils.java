@@ -47,6 +47,19 @@ public class ObjectUtils {
         if (Validator.isEmpty(b)) {
             return true;
         }
-        return Validator.isNotNull(a) && a.contains(b);
+        return Validator.isNotNull(a) && a.toLowerCase().contains(b.toLowerCase());
+    }
+
+    public static String getString(Object o) {
+        if (o == null) {
+            return "";
+        }
+        return o.toString();
+    }
+
+    public static String concat(Object o1, Object o2) {
+        String first = o1 == null ? "" : o1.toString();
+        String second = o2 == null ? "" : o2.toString();
+        return first.concat(second);
     }
 }

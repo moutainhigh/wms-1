@@ -159,5 +159,6 @@
     <string name="text_zh_format">整货(%1$s)</string>
     <string name="text_lh_format">零货(%1$s)</string>
     <string name="text_lh_amount">零货数量</string>
+    <string name="text_location_add">货位新增</string>
 
 </resources>

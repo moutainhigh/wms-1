@@ -96,10 +96,10 @@ public class ShelveHelper {
                 String fCondition = value.getLocationCode();
                 String sCondition = value.getGoodsCode();
                 if (Validator.isEmpty(fCondition) && Validator.isNotEmpty(locationCode)) {
-                    break;
+                    continue;
                 }
                 if (Validator.isEmpty(sCondition) && Validator.isNotEmpty(goodsCode)) {
-                    break;
+                    continue;
                 }
 
                 if (Validator.isNotEmpty(locationCode) && Validator.isNotEmpty(goodsCode)) {

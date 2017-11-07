@@ -120,7 +120,7 @@ public class KeyValueListAdapter extends ListViewAdapter<KeyValueEntity> impleme
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //noinspection unchecked
-            setItems((List<KeyValueEntity>) results.values);
+            replace((List<KeyValueEntity>) results.values);
         }
     }
 }

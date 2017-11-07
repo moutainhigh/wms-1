@@ -3,5 +3,6 @@
 <configuration>
     <typeAliases>
         <typeAlias type="com.teeny.wms.app.model.KeyValueEntity" alias="keyValue"/>
+        <typeAlias type="com.teeny.wms.app.model.StringMapEntity" alias="stringMap"/>
     </typeAliases>
 </configuration>

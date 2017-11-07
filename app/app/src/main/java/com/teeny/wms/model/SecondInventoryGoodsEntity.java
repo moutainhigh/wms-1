@@ -33,6 +33,8 @@ public class SecondInventoryGoodsEntity implements Parcelable {
     private String repositoryName;    //库区名字
     private String areaName;          //区域名字
 
+    private String pinyin;
+
     public SecondInventoryGoodsEntity() {
     }
 
@@ -188,6 +190,14 @@ public class SecondInventoryGoodsEntity implements Parcelable {
         this.areaName = areaName;
     }
 
+    public String getPinyin() {
+        return pinyin;
+    }
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
+    }
+
     protected SecondInventoryGoodsEntity(Parcel in) {
         id = in.readInt();
         originalId = in.readInt();
@@ -208,6 +218,7 @@ public class SecondInventoryGoodsEntity implements Parcelable {
         productionDate = in.readString();
         repositoryName = in.readString();
         areaName = in.readString();
+        pinyin = in.readString();
     }
 
     @Override
@@ -231,6 +242,7 @@ public class SecondInventoryGoodsEntity implements Parcelable {
         dest.writeString(productionDate);
         dest.writeString(repositoryName);
         dest.writeString(areaName);
+        dest.writeString(pinyin);
     }
 
     @Override

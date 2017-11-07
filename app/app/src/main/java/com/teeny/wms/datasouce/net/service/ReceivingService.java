@@ -28,7 +28,7 @@ import retrofit2.http.Query;
 
 public interface ReceivingService {
 
-    @GET("acceptance/units")
+    @GET("acceptance/unit")
     Flowable<ResponseEntity<List<KeyValueEntity>>> getUnitList();
 
     /**

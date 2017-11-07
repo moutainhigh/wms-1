@@ -33,6 +33,8 @@ public class ReceivingItemEntity implements Parcelable {
     private String zhUnit;
     private String lhUnit;
 
+    private String pinyin;
+
     public ReceivingItemEntity() {
     }
 
@@ -180,6 +182,14 @@ public class ReceivingItemEntity implements Parcelable {
         this.lhUnit = lhUnit;
     }
 
+    public String getPinyin() {
+        return pinyin;
+    }
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
+    }
+
     protected ReceivingItemEntity(Parcel in) {
         id = in.readInt();
         originalId = in.readInt();
@@ -199,6 +209,7 @@ public class ReceivingItemEntity implements Parcelable {
         rate = in.readFloat();
         zhUnit = in.readString();
         lhUnit = in.readString();
+        pinyin = in.readString();
     }
 
     @Override
@@ -221,6 +232,7 @@ public class ReceivingItemEntity implements Parcelable {
         dest.writeFloat(rate);
         dest.writeString(zhUnit);
         dest.writeString(lhUnit);
+        dest.writeString(pinyin);
     }
 
     @Override

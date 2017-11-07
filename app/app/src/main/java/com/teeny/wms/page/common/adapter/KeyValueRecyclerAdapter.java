@@ -111,7 +111,7 @@ public class KeyValueRecyclerAdapter extends RecyclerAdapter<KeyValueEntity> imp
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //noinspection unchecked
-            setItems((List<KeyValueEntity>) results.values);
+            replaces((List<KeyValueEntity>) results.values);
         }
     }
 }

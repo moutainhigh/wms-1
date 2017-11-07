@@ -82,7 +82,7 @@
                     android:id="@+id/warehouse_first_goods_allocation"
                     style="@style/TextViewStyle.Dark.Scan"
                     android:hint="@string/text_goods_allocation"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionDone" />
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/warehouse_first_goods"

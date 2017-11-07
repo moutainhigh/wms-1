@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Class description:
+ * Class description: 登陆登出
  *
  * @author zp
  * @version 1.0

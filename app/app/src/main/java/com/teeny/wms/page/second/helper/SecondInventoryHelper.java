@@ -222,7 +222,7 @@ public class SecondInventoryHelper {
         List<SecondInventoryGoodsEntity> result = new ArrayList<>();
         for (int i = 0, count = values.size(); i < count; i++) {
             SecondInventoryGoodsEntity value = values.get(i);
-            if (ObjectUtils.contains(value.getGoodsCode(), mGoodsCode)) {
+            if (ObjectUtils.contains(ObjectUtils.concat(value.getGoodsCode(), value.getPinyin()), mGoodsCode)) {
                 result.add(value);
             }
         }

@@ -327,6 +327,10 @@ public class ShopFirstActivity extends ToolbarActivity implements BaseFragmentPa
             Toaster.showToast("没有可以完成的商品.");
             return;
         }
+        if (ids.size() >= 30) {
+            Toaster.showToast("当前完成条数过多,请到PC端操作.");
+            return;
+        }
         if (ids.size() > 1) {
             mSubmitDialog.show();
         } else {

@@ -1,5 +1,7 @@
 package com.teeny.wms.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Class description:
  *
@@ -11,7 +13,9 @@ package com.teeny.wms.model;
 
 public class GoodsAllocationEntity {
 
+    @SerializedName(value = "value", alternate = {"code"})
     private String code;
+    @SerializedName(value = "key", alternate = {"name"})
     private String name;
 
     public String getCode() {

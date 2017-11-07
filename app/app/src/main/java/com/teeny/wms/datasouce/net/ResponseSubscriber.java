@@ -40,6 +40,7 @@ public abstract class ResponseSubscriber<T> implements FlowableSubscriber<Respon
 
     private ProgressView mProgressView;
     private AppManager mAppManager;
+    private boolean mIsHandled;
 
     public ResponseSubscriber() {
         this(new SimpleProgressView());
@@ -60,10 +61,12 @@ public abstract class ResponseSubscriber<T> implements FlowableSubscriber<Respon
     public void onNext(ResponseEntity<T> responseEntity) {
         if (Validator.isNull(responseEntity)) {
             onError(new Throwable("请求失败,请重试."));
+            mIsHandled = true;
             return;
         }
         if (responseEntity.getResult() > 0) {
             onError(new Throwable(responseEntity.getMsg()));
+            mIsHandled = true;
             return;
         }
         doNext(responseEntity.getData());
@@ -83,8 +86,10 @@ public abstract class ResponseSubscriber<T> implements FlowableSubscriber<Respon
 
     @Override
     public void onComplete() {
-        mProgressView.dismissProgressDialog();
-        doComplete();
+        if (!mIsHandled) {
+            mProgressView.dismissProgressDialog();
+            doComplete();
+        }
     }
 
     public abstract void doNext(T data);

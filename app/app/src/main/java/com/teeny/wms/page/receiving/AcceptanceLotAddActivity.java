@@ -189,11 +189,6 @@ public class AcceptanceLotAddActivity extends ToolbarActivity implements DatePic
             return;
         }
         String price = mPriceEdit.getText().toString();
-        if (Validator.isEmpty(price)) {
-            Toaster.showToast("请输入价格.");
-            mPriceEdit.requestFocus();
-            return;
-        }
         if (mEntity.getAmount() <= 0) {
             Toaster.showToast("请输入整货数量或者零货数量.");
             mZHEdit.requestFocus();

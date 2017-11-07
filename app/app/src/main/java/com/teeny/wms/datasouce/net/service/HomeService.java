@@ -35,4 +35,12 @@ public interface HomeService {
      */
     @GET("home/documentList")
     Flowable<ResponseEntity<DocumentResponseEntity>> getDocumentInfo();
+
+    /**
+     * 获取单据信息
+     *
+     * @return 首页信息
+     */
+    @GET("home/username")
+    Flowable<ResponseEntity<String>> getUsername();
 }

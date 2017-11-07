@@ -189,6 +189,5 @@ public abstract class ListViewAdapter<T> extends BaseAdapter {
     public void replace(List<T> items) {
         this.mItems = items;
         notifyDataSetChanged();
-        notifyDataSetInvalidated();
     }
 }
