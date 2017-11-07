@@ -1,5 +1,7 @@
 package com.teeny.wms.web.service;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 /**
  * Class description:
  *
@@ -8,5 +10,5 @@ package com.teeny.wms.web.service;
  * @see UserService
  * @since 2017/10/25
  */
-public interface UserService  {
+public interface UserService extends UserDetailsService {
 }

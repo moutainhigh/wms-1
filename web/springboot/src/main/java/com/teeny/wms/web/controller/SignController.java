@@ -44,13 +44,6 @@ public class SignController {
         return new ResponseEntity<>();
     }
 
-    // 测试接口
-    @GetMapping(value = "/test")
-    @ResponseBody
-    public ResponseEntity<Object> test() {
-        return new ResponseEntity<>();
-    }
-
     // 获取账套
     @GetMapping(value = "/accountSets")
     @ResponseBody

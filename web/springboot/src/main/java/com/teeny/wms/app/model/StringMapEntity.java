@@ -22,12 +22,6 @@ public class StringMapEntity implements KeyValue<String, String> {
 
     @Override
     public String getValue() {
-<<<<<<< HEAD
-        return value;
-    }
-}
-=======
         return this.value;
     }
 }
->>>>>>> 7929634cea6564bc710d0b1045a48cb725b1eb05
