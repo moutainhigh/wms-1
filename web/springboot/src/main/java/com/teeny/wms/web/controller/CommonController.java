@@ -47,7 +47,7 @@ public class CommonController {
 
     @GetMapping("/api/home/username")
     public ResponseEntity<String> getUsername() {
-        return new ResponseEntity<>("");
+        return new ResponseEntity<>("test");
 
         //TODO user
     }

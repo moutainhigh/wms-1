@@ -25,7 +25,7 @@ public class UserEntity {
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
 //        List<GrantedAuthority> authorities = new ArrayList<>();
 //        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(WebSecurityConfiguration.ROLE_USER);
-//        authorities.add(authority);
+//        authorities.addInventory(authority);
 //        return authorities;
 //    }
 

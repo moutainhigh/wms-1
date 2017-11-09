@@ -25,7 +25,7 @@ import java.util.List;
 public interface ReviewMapper {
 
     @Select("SELECT b.smb_id AS smbId,b.bill_id AS billId, b.PickType AS pickType, b.DealStates AS dealStates FROM ${account}.dbo.pda_CheckBill_B b WHERE b.barcode=#{code}")
-    ReviewBillEntity getBillByCode(String billNo, String account);
+    ReviewBillEntity getBillByCode(@Param("code") String code, @Param("account") String account);
 
     void updateStatus(@Param("smbId") int smbId, @Param("account") String account, @Param("userId") int userId);
 

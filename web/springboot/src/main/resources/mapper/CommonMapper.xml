@@ -12,7 +12,7 @@
 
     <resultMap id="historyLocation" type="stringMap">
         <result column="name" property="key" javaType="string"/>
-        <result column="code" property="value" javaType="string"/>
+        <result column="result" property="value" javaType="string"/>
     </resultMap>
 
     <select id="getAreaList" resultMap="keyValue">
@@ -25,9 +25,9 @@
     </select>
 
 
-    <select id="getHistoryLocation" resultMap="stringMap">
+    <select id="getHistoryLocation" resultMap="historyLocation">
         SELECT TOP 10
-            l.loc_code AS code,
+            l.loc_code AS result,
             l.loc_name AS name
         FROM ${account}.dbo.pda_locationTrace lt
             LEFT JOIN ${account}.dbo.pda_location l ON l.l_id = lt.Location_id

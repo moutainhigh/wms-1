@@ -12,12 +12,12 @@ public class ResponseEntity<T> {
 
     private static final String MSG_SUCCESS = "请求成功.";
 
-    private int code;
+    private int result;
     private String message;
     private T data;
 
     public ResponseEntity() {
-        this.code = 0;
+        this.result = 0;
         this.message = MSG_SUCCESS;
     }
 
@@ -26,12 +26,12 @@ public class ResponseEntity<T> {
         this.data = data;
     }
 
-    public int getCode() {
-        return code;
+    public int getResult() {
+        return result;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setResult(int result) {
+        this.result = result;
     }
 
     public String getMessage() {
@@ -52,7 +52,7 @@ public class ResponseEntity<T> {
 
     public static ResponseEntity create(int code, String message) {
         ResponseEntity result = new ResponseEntity();
-        result.setCode(code);
+        result.setResult(code);
         result.setMessage(message);
         return result;
     }

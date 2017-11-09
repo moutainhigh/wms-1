@@ -21,7 +21,6 @@ import java.util.List;
  * @since 2017/10/19
  */
 @RestController
-@RequestMapping("/log")
 public class SignController {
 
     private static Logger sLogger = LoggerFactory.getLogger(SignController.class);
@@ -33,19 +32,24 @@ public class SignController {
         this.mSignService = signService;
     }
 
-    @PostMapping(value = "/in")
-    public ResponseEntity<UserEntity> in() {
+    @PostMapping(value = "/login")
+    @GetMapping("/oauth/token")
+    public ResponseEntity<UserEntity> login() {
         return new ResponseEntity<>();
     }
 
+    @GetMapping("/oauth/token")
+    public ResponseEntity<UserEntity> refreshToken() {
+        return new ResponseEntity<>();
+    }
 
-    @PostMapping(value = "/out")
-    public ResponseEntity<EmptyEntity> out() {
+    @PostMapping(value = "/logout")
+    public ResponseEntity<EmptyEntity> logout() {
         return new ResponseEntity<>();
     }
 
     // 获取账套
-    @GetMapping(value = "/accountSets")
+    @GetMapping(value = "/log/accountSets")
     @ResponseBody
     public ResponseEntity<List<StringMapEntity>> getAccountSet() {
         List<StringMapEntity> result = mSignService.getAccountSets();

@@ -18,6 +18,11 @@ public interface CommonMapper {
             @Result(column = "name", property = "value")})
     List<KeyValueEntity> getWarehouseList(@Param("account") String account);
 
+    @Select("SELECT db_name AS id, account_name AS name FROM pda_account_set")
+    @Results({@Result(column = "id", property = "key"),
+            @Result(column = "name", property = "value")})
+    List<StringMapEntity> getAccountSets();
+
     List<KeyValueEntity> getAreaList(@Param("sId") int sId, @Param("account") String account);
 
     @Select("SELECT TOP 1 l.l_id FROM ${account}.dbo.pda_location l WHERE l.loc_code=#{locationCode}")
@@ -32,4 +37,7 @@ public interface CommonMapper {
     List<DocumentEntity> getPutawayList(@Param("account") String account, @Param("sId") int sId);
 
     List<DocumentEntity> getReviewList(@Param("account") String account, @Param("sId") int sId);
+
+    @Select("SELECT TOP 1 l.l_id FROM ${account}.dbo.pda_location l WHERE l.loc_code=#{locationCode}")
+    Integer getLocationIdByCode(@Param("locationCode") String locationCode,@Param("account") String account);
 }
