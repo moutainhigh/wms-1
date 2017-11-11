@@ -23,8 +23,7 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
  * @since 2017/10/25
  */
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     public static final String ROLE_USER = "ROLE_USER";

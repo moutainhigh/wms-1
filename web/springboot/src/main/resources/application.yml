@@ -10,34 +10,23 @@ logging:
        springframework:
            security: DEBUG
     root: INFO
+  file: log.log
 
 spring:
   datasource:
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    url: jdbc:sqlserver://yyt8812.gnway.cc:1344;databaseName=yytsy
-#    username: sa
-#    password: yyt@123
-    url: jdbc:sqlserver://localhost;databaseName=yyt
-    username: sa
-    password: zhupeng123
     name: wms
-    type: com.alibaba.druid.pool.DruidDataSource
-    #连接池的配置信息
-    initialSize: 5
-    minIdle: 5
-    maxActive: 20
-    maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: SELECT 1 FROM DUAL
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxPoolPreparedStatementPerConnectionSize: 20
-    filters: stat,wall,log4j
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-
+    druid:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      url: jdbc:sqlserver://localhost;databaseName=yyt
+      username: sa
+      password: zhupeng123
+#      url: jdbc:sqlserver://yyt8812.gnway.cc:1344;databaseName=yytsy
+#      username: sa
+#      password: yyt@123
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      filters: stat,slf4j
 security:
   basic:
     enabled: false

@@ -31,6 +31,8 @@ public class UserEntity {
 
     private String databaseName;
 
+    private String username;
+
 
     public String getRefreshToken() {
         return refreshToken;
