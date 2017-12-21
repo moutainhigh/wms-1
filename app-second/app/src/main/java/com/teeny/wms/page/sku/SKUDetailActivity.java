@@ -91,7 +91,7 @@ public class SKUDetailActivity extends ToolbarActivity {
 
     public void onClick(View view) {
         int quantity = Converter.toInt(mQuantityView.getText().toString(), -1);
-        if (quantity < 0 && quantity == mEntity.getQuantity()) {
+        if (quantity < 0 || quantity == mEntity.getQuantity()) {
             finish();
             return;
         }

@@ -31,6 +31,7 @@ public class SKUEntity implements Parcelable {
     private float costPrice;                        //成本单价
     private float costTotal;                        //成本金额
     private String productionPlace;                 //产地
+    private String pinyin;                          //拼音
 
     public SKUEntity() {
     }
@@ -53,6 +54,7 @@ public class SKUEntity implements Parcelable {
         costPrice = in.readFloat();
         costTotal = in.readFloat();
         productionPlace = in.readString();
+        pinyin = in.readString();
     }
 
     @Override
@@ -74,6 +76,7 @@ public class SKUEntity implements Parcelable {
         dest.writeFloat(costPrice);
         dest.writeFloat(costTotal);
         dest.writeString(productionPlace);
+        dest.writeString(pinyin);
     }
 
     @Override
@@ -227,5 +230,13 @@ public class SKUEntity implements Parcelable {
 
     public void setProductionPlace(String productionPlace) {
         this.productionPlace = productionPlace;
+    }
+
+    public String getPinyin() {
+        return pinyin;
+    }
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
     }
 }

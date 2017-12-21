@@ -1,6 +1,7 @@
 package com.teeny.wms.page.allot;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,10 +40,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class AllotListFilterActivity extends ToolbarActivity {
 
-    public static void startActivityForResult(Activity context, int requestCode) {
+    public static void startActivity(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, AllotListFilterActivity.class);
-        context.startActivityForResult(intent, requestCode);
+        context.startActivity(intent);
     }
 
     public static final String KEY_WAREHOUSE_ID = "warehouse_id";
@@ -157,7 +158,10 @@ public class AllotListFilterActivity extends ToolbarActivity {
             preferences.putInt(KEY_REPOSITORY_ID, mSelectRepository.getKey());
             Logger.e(mSelectRepository.toString());
         }
-        setResult(RESULT_OK);
+        getEventBus().post(new FilterFlag());
         finish();
+    }
+
+    public static class FilterFlag {
     }
 }

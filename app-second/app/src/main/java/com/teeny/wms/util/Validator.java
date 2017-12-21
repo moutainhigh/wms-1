@@ -20,7 +20,7 @@ public class Validator {
     /**
      * regex string to match number.
      */
-    private static final String REGEX_NUMERIC = "^([-+]?[1-9]([0-9]*)(\\.[0-9]+)?)|(^0$)$";
+    private static final String REGEX_NUMERIC = "-[0-9]+(.[0-9]+)?|[0-9]+(.[0-9]+)?";
 
     /**
      * regex string to match mobile number.
@@ -175,9 +175,7 @@ public class Validator {
         if (isEmpty(value)) {
             return false;
         }
-        Pattern pattern = Pattern.compile(REGEX_NUMERIC);
-        Matcher matcher = pattern.matcher(value);
-        return matcher.find();
+        return value.matches(REGEX_NUMERIC);
     }
 
     /**

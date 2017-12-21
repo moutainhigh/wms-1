@@ -1,9 +1,8 @@
-package com.teeny.wms.web.service.impl;
+package com.teeny.wms.app.config.security;
 
-import com.teeny.wms.web.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Class description:
@@ -11,12 +10,11 @@ import org.springframework.stereotype.Service;
  * @author zp
  * @version 1.0
  * @see UserServiceImpl
- * @since 2017/10/25
+ * @since 2017/11/14
  */
 
-@Service
+@Component
 public class UserServiceImpl implements UserService {
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;

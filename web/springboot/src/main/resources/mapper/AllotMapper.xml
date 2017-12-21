@@ -12,28 +12,28 @@
 
     <select id="getList" resultType="AllotEntity">
         SELECT
-        d.smb_id AS id,
-        d.original_id AS originalId,
-        p.p_id AS goodsId,
-        p.name AS goodsName,
-        d.Batchno AS lotNo,
-        p.standard AS specification,
-        p.Factory AS manufacturer,
-        p.unit1Name AS unit,
-        d.quantity AS amount,
-        CONVERT(VARCHAR (100), d.Validdate, 23) AS validateDate,
-        CONVERT(VARCHAR (100), d.MakeDate, 23) AS productDate,
-        p.barcode,
-        b.billnumber AS billNo,
-        d.DealStates AS status,
-        p.serial_number AS number,
-        l1.loc_code AS exportName,
-        l2.loc_code AS importName
+            d.smb_id                               AS id,
+            d.original_id                          AS originalId,
+            p.p_id                                 AS goodsId,
+            p.name                                 AS goodsName,
+            d.Batchno                              AS lotNo,
+            p.standard                             AS specification,
+            p.Factory                              AS manufacturer,
+            p.unit1Name                            AS unit,
+            d.quantity                             AS amount,
+            CONVERT(VARCHAR(100), d.Validdate, 23) AS validateDate,
+            CONVERT(VARCHAR(100), d.MakeDate, 23)  AS productDate,
+            p.barcode,
+            b.billnumber                           AS billNo,
+            d.DealStates                           AS status,
+            p.serial_number                        AS number,
+            l1.loc_code                            AS exportName,
+            l2.loc_code                            AS importName
         FROM ${account}.dbo.pda_TranBill_D d
-        LEFT JOIN ${account}.dbo.pda_Products p ON p.p_id = d.p_id
-        LEFT JOIN ${account}.dbo.pda_TranBill b ON b.billid = d.bill_id
-        LEFT JOIN ${account}.dbo.pda_location l1 ON l1.l_id = d.Location_id
-        LEFT JOIN ${account}.dbo.pda_location l2 ON l2.l_id = d.location_id2
+            LEFT JOIN ${account}.dbo.pda_Products p ON p.p_id = d.p_id
+            LEFT JOIN ${account}.dbo.pda_TranBill b ON b.billid = d.bill_id
+            LEFT JOIN ${account}.dbo.pda_location l1 ON l1.l_id = d.Location_id
+            LEFT JOIN ${account}.dbo.pda_location l2 ON l2.l_id = d.location_id2
         WHERE d.DealStates = 0
         <if test="billNo != null and billNo != ''">
             AND b.billnumber = #{billNo}

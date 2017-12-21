@@ -204,13 +204,13 @@ public class AllotListEditActivity extends ToolbarActivity implements DialogInte
             return;
         }
         AllotListRequestEntity entity = new AllotListRequestEntity();
-        entity.setId(mEntity.getId());
+        entity.setId(mEntity.getOriginalId());
         entity.setLocations(result);
         Flowable<ResponseEntity<EmptyEntity>> flowable = mService.update(entity);
         flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<EmptyEntity>(this) {
             @Override
             public void doNext(EmptyEntity data) {
-                setResult(RESULT_OK);
+                getEventBus().post(new EditFlag());
             }
 
             @Override
@@ -227,4 +227,6 @@ public class AllotListEditActivity extends ToolbarActivity implements DialogInte
             mAdapter.remove(mDeletePosition);
         }
     }
+
+    public static final class EditFlag{}
 }

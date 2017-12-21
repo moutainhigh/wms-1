@@ -3,6 +3,8 @@ package com.teeny.wms.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.teeny.wms.util.Validator;
+
 /**
  * Class description: 调拨单实体
  *
@@ -30,6 +32,7 @@ public class AllotListEntity implements Parcelable {
     private String number;   //编码
     private String exportName;   //调出货位
     private String importName;   //调入货位
+    private String pinyin;
 
     public AllotListEntity() {
     }
@@ -155,7 +158,7 @@ public class AllotListEntity implements Parcelable {
     }
 
     public String getExportName() {
-        return exportName;
+        return Validator.isEmpty(exportName) ? "" : exportName;
     }
 
     public void setExportName(String exportName) {
@@ -163,11 +166,19 @@ public class AllotListEntity implements Parcelable {
     }
 
     public String getImportName() {
-        return importName;
+        return Validator.isEmpty(importName) ? "" : importName;
     }
 
     public void setImportName(String importName) {
         this.importName = importName;
+    }
+
+    public String getPinyin() {
+        return pinyin;
+    }
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
     }
 
     protected AllotListEntity(Parcel in) {
@@ -188,6 +199,7 @@ public class AllotListEntity implements Parcelable {
         number = in.readString();
         exportName = in.readString();
         importName = in.readString();
+        pinyin = in.readString();
     }
 
     @Override
@@ -209,6 +221,7 @@ public class AllotListEntity implements Parcelable {
         dest.writeString(number);
         dest.writeString(exportName);
         dest.writeString(importName);
+        dest.writeString(pinyin);
     }
 
     @Override

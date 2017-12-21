@@ -3,6 +3,7 @@ package com.teeny.wms.page.shelve.helper;
 import android.support.v4.util.SparseArrayCompat;
 
 import com.teeny.wms.model.ShelveEntity;
+import com.teeny.wms.util.ObjectUtils;
 import com.teeny.wms.util.Validator;
 
 import org.greenrobot.eventbus.EventBus;
@@ -94,7 +95,7 @@ public class ShelveHelper {
             for (int i = 0; i < count; i++) {
                 final ShelveEntity value = values.get(i);
                 String fCondition = value.getLocationCode();
-                String sCondition = value.getGoodsCode();
+                String sCondition = ObjectUtils.concat(value.getGoodsCode(), value.getPinyin());
                 if (Validator.isEmpty(fCondition) && Validator.isNotEmpty(locationCode)) {
                     continue;
                 }
@@ -109,7 +110,7 @@ public class ShelveHelper {
                     continue;
                 }
                 if (Validator.isNotEmpty(locationCode)) {
-                    if (fCondition.contains(locationCode)){
+                    if (fCondition.contains(locationCode)) {
                         newValues.add(value);
                     }
                     continue;

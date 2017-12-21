@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.teeny.wms.base.ListViewAdapter;
 import com.teeny.wms.base.ViewHolder;
 import com.teeny.wms.model.KeyValueEntity;
+import com.teeny.wms.util.ObjectUtils;
 import com.teeny.wms.util.Validator;
 
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class KeyValueListAdapter extends ListViewAdapter<KeyValueEntity> impleme
 
                 for (int i = 0; i < count; i++) {
                     final KeyValueEntity value = values.get(i);
-                    final String valueText = value.getValue().toLowerCase();
+                    final String valueText = ObjectUtils.concat(value.getValue(), value.getAlternate()).toLowerCase();
                     if (valueText.contains(prefixString)) {
                         newValues.add(value);
                     }

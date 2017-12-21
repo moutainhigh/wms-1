@@ -367,6 +367,8 @@ public class ShelveAndStorageActivity extends ToolbarActivity implements BaseFra
             public void doComplete() {
                 mHelper.reverseAllStatus();
                 DocumentHelper.getInstance().notifyDocumentChanged();
+                mLocationTextView.setText("");
+                mGoodsTextView.setText("");
             }
         });
     }

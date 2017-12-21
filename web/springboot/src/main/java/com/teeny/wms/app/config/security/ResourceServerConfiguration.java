@@ -16,8 +16,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  * @since 2017/10/25
  */
 
-//@Configuration
-//@EnableResourceServer
+@Configuration
+@EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     public static final String RESOURCE_ID = "api";

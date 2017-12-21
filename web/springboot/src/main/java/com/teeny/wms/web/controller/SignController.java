@@ -33,13 +33,7 @@ public class SignController {
     }
 
     @PostMapping(value = "/login")
-    @GetMapping("/oauth/token")
     public ResponseEntity<UserEntity> login() {
-        return new ResponseEntity<>();
-    }
-
-    @GetMapping("/oauth/token")
-    public ResponseEntity<UserEntity> refreshToken() {
         return new ResponseEntity<>();
     }
 

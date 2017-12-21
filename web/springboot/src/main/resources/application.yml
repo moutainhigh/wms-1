@@ -27,11 +27,13 @@ spring:
       min-idle: 1
       max-active: 20
       filters: stat,slf4j
-security:
-  basic:
-    enabled: false
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:/mapper/*.xml
   type-aliases-package: com.teeny.wms.web.model
   executor-type: batch
+security:
+  basic:
+    path: /api/**
+
+

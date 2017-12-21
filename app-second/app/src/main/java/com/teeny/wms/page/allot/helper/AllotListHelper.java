@@ -89,19 +89,19 @@ public class AllotListHelper {
                     break;
                 }
                 if (Validator.isNotEmpty(mExportLocation) && Validator.isNotEmpty(mImportLocation)) {
-                    if (fCondition.contains(mExportLocation) && sCondition.contains(mImportLocation)) {
+                    if (ObjectUtils.contains(fCondition, mExportLocation) && ObjectUtils.contains(sCondition, mImportLocation)) {
                         newValues.add(value);
                     }
                     continue;
                 }
                 if (Validator.isNotEmpty(mExportLocation)) {
-                    if (fCondition.contains(mExportLocation)) {
+                    if (ObjectUtils.contains(fCondition, mExportLocation)) {
                         newValues.add(value);
                     }
                     continue;
                 }
                 if (Validator.isNotEmpty(mImportLocation)) {
-                    if (sCondition.contains(mImportLocation)) {
+                    if (ObjectUtils.contains(sCondition, mImportLocation)) {
                         newValues.add(value);
                     }
                 }

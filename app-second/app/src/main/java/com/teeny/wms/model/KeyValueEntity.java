@@ -18,6 +18,8 @@ public class KeyValueEntity {
     @SerializedName(value = "value", alternate = {"name"})
     private String value;
 
+    private String alternate;
+
     public KeyValueEntity() {
     }
 
@@ -45,5 +47,13 @@ public class KeyValueEntity {
     @Override
     public String toString() {
         return value;
+    }
+
+    public String getAlternate() {
+        return alternate;
+    }
+
+    public void setAlternate(String alternate) {
+        this.alternate = alternate;
     }
 }

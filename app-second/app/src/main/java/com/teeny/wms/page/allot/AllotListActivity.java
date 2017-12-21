@@ -39,6 +39,7 @@ import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.pop.Toaster;
 import com.teeny.wms.util.Validator;
 import com.teeny.wms.util.WindowUtils;
+import com.teeny.wms.util.log.Logger;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -70,8 +71,8 @@ public class AllotListActivity extends ToolbarActivity implements RecyclerViewTo
         context.startActivity(intent);
     }
 
-    private static final int REQUEST_CODE_EDIT = 0x03;
-    private static final int REQUEST_CODE_FILTER = 0x04;
+//    private static final int REQUEST_CODE_EDIT = 0x03;
+//    private static final int REQUEST_CODE_FILTER = 0x04;
 
     private static final int INVALID_POSITION = -1;
 
@@ -144,7 +145,7 @@ public class AllotListActivity extends ToolbarActivity implements RecyclerViewTo
         int id = item.getItemId();
         switch (id) {
             case R.id.filter:
-                AllotListFilterActivity.startActivityForResult(this, REQUEST_CODE_FILTER);
+                AllotListFilterActivity.startActivity(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -385,32 +386,26 @@ public class AllotListActivity extends ToolbarActivity implements RecyclerViewTo
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        switch (requestCode) {
-            case REQUEST_CODE_EDIT:
-                AllotListEntity entity = mAdapter.getItem(mSelectPosition);
-                mAdapter.remove(mSelectPosition);
-                mHelper.remove(entity);
-                break;
-            case REQUEST_CODE_FILTER:
-                Preferences preferences = SharedPreferencesManager.getInstance().getAllotFilterPreferences();
-                mWarehouseId = preferences.getInt(AllotListFilterActivity.KEY_WAREHOUSE_ID, 0);
-                mRepositoryId = preferences.getInt(AllotListFilterActivity.KEY_REPOSITORY_ID, 0);
-                mHelper.clear();
-                mDocumentView.setText("");
-                mGoodsView.setText("");
-                mExportView.setText("");
-                mImportView.setText("");
-                mDocumentCode = "";
-                mGoodsCode = "";
-                obtainData();
-                break;
-        }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFiltered(AllotListFilterActivity.FilterFlag flag) {
+        Preferences preferences = SharedPreferencesManager.getInstance().getAllotFilterPreferences();
+        mWarehouseId = preferences.getInt(AllotListFilterActivity.KEY_WAREHOUSE_ID, 0);
+        mRepositoryId = preferences.getInt(AllotListFilterActivity.KEY_REPOSITORY_ID, 0);
+        mHelper.clear();
+        mDocumentView.setText("");
+        mGoodsView.setText("");
+        mExportView.setText("");
+        mImportView.setText("");
+        mDocumentCode = "";
+        mGoodsCode = "";
+        obtainData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEdited(AllotListEditActivity.EditFlag flag) {
+        AllotListEntity entity = mAdapter.getItem(mSelectPosition);
+        mAdapter.remove(mSelectPosition);
+        mHelper.remove(entity);
     }
 
     public void onClick(View view) {

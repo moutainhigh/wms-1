@@ -80,14 +80,12 @@
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/shop_first_goods_allocation"
                     style="@style/TextViewStyle.Dark.Scan"
-                    android:hint="@string/text_goods_allocation"
-                    android:imeOptions="actionNext" />
+                    android:hint="@string/text_goods_allocation" />
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/shop_first_goods"
                     style="@style/TextViewStyle.Dark.Scan"
-                    android:hint="@string/text_goods"
-                    android:imeOptions="actionDone" />
+                    android:hint="@string/text_goods" />
 
             </LinearLayout>
 
