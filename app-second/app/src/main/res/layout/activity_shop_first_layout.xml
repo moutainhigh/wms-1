@@ -87,12 +87,12 @@
                     style="@style/TextViewStyle.Dark.Scan"
                     android:hint="@string/text_goods" />
 
-            </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_16"
+                    android:background="@color/divider_color" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_16"
-                android:background="@color/divider_color" />
+            </LinearLayout>
 
         </LinearLayout>
 

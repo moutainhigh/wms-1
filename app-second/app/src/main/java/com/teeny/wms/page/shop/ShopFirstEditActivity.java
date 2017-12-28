@@ -20,12 +20,13 @@ import com.teeny.wms.datasouce.net.NetServiceManager;
 import com.teeny.wms.datasouce.net.ResponseSubscriber;
 import com.teeny.wms.datasouce.net.service.ShopService;
 import com.teeny.wms.model.EmptyEntity;
+import com.teeny.wms.model.InventoryGoodsEntity;
 import com.teeny.wms.model.LotEntity;
 import com.teeny.wms.model.ResponseEntity;
-import com.teeny.wms.model.ShopGoodsEntity;
 import com.teeny.wms.model.request.ShopInventoryRequestEntity;
 import com.teeny.wms.page.common.activity.LotEditActivity;
 import com.teeny.wms.page.common.adapter.LotAdapter;
+import com.teeny.wms.page.common.fragment.InventoryHeaderFragment;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.widget.KeyValueTextView;
 
@@ -47,7 +48,7 @@ public class ShopFirstEditActivity extends ToolbarActivity implements RecyclerVi
 
     private static final String KEY_DATA = "data";
 
-    public static void startActivity(Activity context, ShopGoodsEntity entity) {
+    public static void startActivity(Activity context, InventoryGoodsEntity entity) {
         Intent intent = new Intent();
         intent.setClass(context, ShopFirstEditActivity.class);
         intent.putExtra(KEY_DATA, entity);
@@ -62,7 +63,7 @@ public class ShopFirstEditActivity extends ToolbarActivity implements RecyclerVi
     private int mDeletePosition = INVALID_POSITION;
     private AlertDialog mDeleteDialog;
 
-    private ShopGoodsEntity mEntity;
+    private InventoryGoodsEntity mEntity;
     private ShopService mService;
 
     @Override
@@ -152,7 +153,7 @@ public class ShopFirstEditActivity extends ToolbarActivity implements RecyclerVi
         flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<EmptyEntity>(this) {
             @Override
             public void doNext(EmptyEntity data) {
-                getEventBus().post(new ShopFirstActivity.DataChangedFlag());
+                getEventBus().post(new InventoryHeaderFragment.DataChangedObserver());
             }
 
             @Override

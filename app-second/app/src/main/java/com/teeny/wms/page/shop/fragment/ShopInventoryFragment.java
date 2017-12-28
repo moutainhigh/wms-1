@@ -18,8 +18,8 @@ import com.teeny.wms.base.decoration.VerticalDecoration;
 import com.teeny.wms.datasouce.net.NetServiceManager;
 import com.teeny.wms.datasouce.net.ResponseSubscriber;
 import com.teeny.wms.datasouce.net.service.ShopService;
+import com.teeny.wms.model.InventoryGoodsEntity;
 import com.teeny.wms.model.ResponseEntity;
-import com.teeny.wms.model.ShopGoodsEntity;
 import com.teeny.wms.page.shop.ShopFirstEditActivity;
 import com.teeny.wms.page.shop.adapter.ShopGoodsAdapter;
 import com.teeny.wms.page.shop.helper.ShopFirstHelper;
@@ -131,7 +131,7 @@ public class ShopInventoryFragment extends BaseFragment implements RecyclerViewT
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mOptionDialog.dismiss();
-        ShopGoodsEntity entity = mAdapter.getItem(mSelectPosition);
+        InventoryGoodsEntity entity = mAdapter.getItem(mSelectPosition);
         switch (mType) {
             case 0:
                 if (position == 0) {

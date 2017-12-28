@@ -1,11 +1,9 @@
 package com.teeny.wms.datasouce.net.service;
 
 import com.teeny.wms.model.EmptyEntity;
-import com.teeny.wms.model.KeyValueEntity;
 import com.teeny.wms.model.LotEntity;
 import com.teeny.wms.model.ResponseEntity;
 import com.teeny.wms.model.SKUGoodsDetailEntity;
-import com.teeny.wms.model.ShopGoodsEntity;
 import com.teeny.wms.model.request.InventoryAddRequestEntity;
 import com.teeny.wms.model.request.ShopInventoryRequestEntity;
 
@@ -30,32 +28,6 @@ import retrofit2.http.Query;
  */
 
 public interface ShopService {
-
-//    /**
-//     * 获取库区列表
-//     *
-//     * @return List<KeyValueEntity>
-//     */
-//    @GET("shopFirst/saList")
-//    Flowable<ResponseEntity<List<KeyValueEntity>>> getRepositoryList();
-//
-//
-//    /**
-//     * 获取区域列表
-//     *
-//     * @return List<KeyValueEntity>
-//     */
-//    @GET("shopFirst/areaList")
-//    Flowable<ResponseEntity<List<KeyValueEntity>>> getAreaList();
-
-    /**
-     * 获取盘点商品列表
-     *
-     * @param id 盘点单id
-     * @return List<KeyValueEntity>
-     */
-    @GET("shopFirst/getList")
-    Flowable<ResponseEntity<List<ShopGoodsEntity>>> getGoodsList(@Query("id") int id);
 
     /**
      * 单个完成
@@ -93,14 +65,6 @@ public interface ShopService {
      */
     @GET("shopFirst/getLotList")
     Flowable<ResponseEntity<List<LotEntity>>> getLotList(@Query("originalId") int originalId);
-
-    /**
-     * 获取盘点类型
-     *
-     * @return List<KeyValueEntity>
-     */
-    @GET("shopFirst/pdType")
-    Flowable<ResponseEntity<List<KeyValueEntity>>> getPdType();
 
     /**
      * 根据商品码获取商品详情

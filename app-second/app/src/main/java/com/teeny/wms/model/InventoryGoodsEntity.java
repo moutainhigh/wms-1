@@ -8,31 +8,35 @@ import android.os.Parcelable;
  *
  * @author zp
  * @version 1.0
- * @see ShopGoodsEntity
- * @since 2017/8/20
+ * @see InventoryGoodsEntity
+ * @since 2017/12/27
  */
 
-public class ShopGoodsEntity implements Parcelable {
-    private int id; //id
-    private int originalId;
-    private int billId;       //盘点单id
-    private int goodsId;       //商品id
-    private String goodsName; //商品名
-    private String location; // 货位
-    private float inventoryCount; //盘点数量
-    private float countInBill; //账面数量
-    private String unit; //单位盒
-    private String specification; //规格
-    private String manufacturer; //厂家
-    private int status; //状态
-    private String locationCode;   //货位码
-    private String goodsCode;      //商品码
+public class InventoryGoodsEntity implements Parcelable{
+
+    private int id;                   //id
+    private int originalId;           //原始单号id
+    private int billId;               //盘点单id
+    private int goodsId;              //商品id
+    private String goodsName;         //商品名
+    private String location;          // 货位
+    private float countInBill;        //账面数量
+    private float inventoryCount;     //盘点数量
+    private String unit;              //单位盒
+    private String specification;     //规格
+    private String manufacturer;      //厂家
+    private int status;               //状态
+    private String locationCode;      //货位码
+    private String goodsCode;         //商品码
+    private String lotNo;             // 批号
+    private String validateDate;      //有效期
+    private String productionDate;    //生产日期
     private String repositoryName;    //库区名字
     private String areaName;          //区域名字
 
-    private String pinyin;
+    private String pinyin;            //拼音
 
-    public ShopGoodsEntity() {
+    public InventoryGoodsEntity() {
     }
 
     public int getId() {
@@ -83,20 +87,20 @@ public class ShopGoodsEntity implements Parcelable {
         this.location = location;
     }
 
-    public float getInventoryCount() {
-        return inventoryCount;
-    }
-
-    public void setInventoryCount(float inventoryCount) {
-        this.inventoryCount = inventoryCount;
-    }
-
     public float getCountInBill() {
         return countInBill;
     }
 
     public void setCountInBill(float countInBill) {
         this.countInBill = countInBill;
+    }
+
+    public float getInventoryCount() {
+        return inventoryCount;
+    }
+
+    public void setInventoryCount(float inventoryCount) {
+        this.inventoryCount = inventoryCount;
     }
 
     public String getUnit() {
@@ -147,6 +151,30 @@ public class ShopGoodsEntity implements Parcelable {
         this.goodsCode = goodsCode;
     }
 
+    public String getLotNo() {
+        return lotNo;
+    }
+
+    public void setLotNo(String lotNo) {
+        this.lotNo = lotNo;
+    }
+
+    public String getValidateDate() {
+        return validateDate;
+    }
+
+    public void setValidateDate(String validateDate) {
+        this.validateDate = validateDate;
+    }
+
+    public String getProductionDate() {
+        return productionDate;
+    }
+
+    public void setProductionDate(String productionDate) {
+        this.productionDate = productionDate;
+    }
+
     public String getRepositoryName() {
         return repositoryName;
     }
@@ -171,24 +199,9 @@ public class ShopGoodsEntity implements Parcelable {
         this.pinyin = pinyin;
     }
 
-    protected ShopGoodsEntity(Parcel in) {
-        id = in.readInt();
-        originalId = in.readInt();
-        billId = in.readInt();
-        goodsId = in.readInt();
-        goodsName = in.readString();
-        location = in.readString();
-        inventoryCount = in.readFloat();
-        countInBill = in.readFloat();
-        unit = in.readString();
-        specification = in.readString();
-        manufacturer = in.readString();
-        status = in.readInt();
-        locationCode = in.readString();
-        goodsCode = in.readString();
-        repositoryName = in.readString();
-        areaName = in.readString();
-        pinyin = in.readString();
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
@@ -199,33 +212,54 @@ public class ShopGoodsEntity implements Parcelable {
         dest.writeInt(goodsId);
         dest.writeString(goodsName);
         dest.writeString(location);
-        dest.writeFloat(inventoryCount);
         dest.writeFloat(countInBill);
+        dest.writeFloat(inventoryCount);
         dest.writeString(unit);
         dest.writeString(specification);
         dest.writeString(manufacturer);
         dest.writeInt(status);
         dest.writeString(locationCode);
         dest.writeString(goodsCode);
+        dest.writeString(lotNo);
+        dest.writeString(validateDate);
+        dest.writeString(productionDate);
         dest.writeString(repositoryName);
         dest.writeString(areaName);
         dest.writeString(pinyin);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    protected InventoryGoodsEntity(Parcel in) {
+        id = in.readInt();
+        originalId = in.readInt();
+        billId = in.readInt();
+        goodsId = in.readInt();
+        goodsName = in.readString();
+        location = in.readString();
+        countInBill = in.readFloat();
+        inventoryCount = in.readFloat();
+        unit = in.readString();
+        specification = in.readString();
+        manufacturer = in.readString();
+        status = in.readInt();
+        locationCode = in.readString();
+        goodsCode = in.readString();
+        lotNo = in.readString();
+        validateDate = in.readString();
+        productionDate = in.readString();
+        repositoryName = in.readString();
+        areaName = in.readString();
+        pinyin = in.readString();
     }
 
-    public static final Creator<ShopGoodsEntity> CREATOR = new Creator<ShopGoodsEntity>() {
+    public static final Creator<InventoryGoodsEntity> CREATOR = new Creator<InventoryGoodsEntity>() {
         @Override
-        public ShopGoodsEntity createFromParcel(Parcel in) {
-            return new ShopGoodsEntity(in);
+        public InventoryGoodsEntity createFromParcel(Parcel in) {
+            return new InventoryGoodsEntity(in);
         }
 
         @Override
-        public ShopGoodsEntity[] newArray(int size) {
-            return new ShopGoodsEntity[size];
+        public InventoryGoodsEntity[] newArray(int size) {
+            return new InventoryGoodsEntity[size];
         }
     };
 }

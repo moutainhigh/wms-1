@@ -34,7 +34,7 @@ public class WarehouseGoodsEntity implements Parcelable {
     private String repositoryName;    //库区名字
     private String areaName;          //区域名字
 
-    private String pinyin;
+    private String pinyin;            //拼音
 
     public WarehouseGoodsEntity() {
     }

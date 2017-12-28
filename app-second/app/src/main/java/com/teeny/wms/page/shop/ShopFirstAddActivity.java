@@ -21,6 +21,7 @@ import com.teeny.wms.model.EmptyEntity;
 import com.teeny.wms.model.ResponseEntity;
 import com.teeny.wms.model.SKUGoodsDetailEntity;
 import com.teeny.wms.model.request.InventoryAddRequestEntity;
+import com.teeny.wms.page.common.fragment.InventoryHeaderFragment;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.pop.Toaster;
 import com.teeny.wms.util.Converter;
@@ -196,7 +197,7 @@ public class ShopFirstAddActivity extends ToolbarActivity implements DatePickerD
         flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<EmptyEntity>(this) {
             @Override
             public void doNext(EmptyEntity data) {
-                getEventBus().post(new ShopFirstActivity.DataChangedFlag());
+                getEventBus().post(new InventoryHeaderFragment.DataChangedObserver());
             }
 
             @Override

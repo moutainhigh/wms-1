@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import com.teeny.wms.R;
 import com.teeny.wms.base.RecyclerAdapter;
 import com.teeny.wms.base.RecyclerViewHolder;
-import com.teeny.wms.model.ShopGoodsEntity;
+import com.teeny.wms.model.InventoryGoodsEntity;
 import com.teeny.wms.util.Validator;
 import com.teeny.wms.widget.KeyValueTextView;
 
@@ -20,14 +20,14 @@ import java.util.List;
  * @since 2017/8/20
  */
 
-public class ShopGoodsAdapter extends RecyclerAdapter<ShopGoodsEntity> {
+public class ShopGoodsAdapter extends RecyclerAdapter<InventoryGoodsEntity> {
 
     /**
      * the constructor of this class.
      *
      * @param items the data source.
      */
-    public ShopGoodsAdapter(@Nullable List<ShopGoodsEntity> items) {
+    public ShopGoodsAdapter(@Nullable List<InventoryGoodsEntity> items) {
         super(items);
     }
 
@@ -37,7 +37,7 @@ public class ShopGoodsAdapter extends RecyclerAdapter<ShopGoodsEntity> {
     }
 
     @Override
-    protected void onBindViewHolder(RecyclerViewHolder holder, int position, ShopGoodsEntity item) {
+    protected void onBindViewHolder(RecyclerViewHolder holder, int position, InventoryGoodsEntity item) {
         KeyValueTextView name = holder.get(R.id.shop_goods_name);
         KeyValueTextView allocation = holder.get(R.id.shop_goods_allocation);
         KeyValueTextView inventoryAmount = holder.get(R.id.shop_goods_inventory_amount);
