@@ -20,12 +20,14 @@ import com.teeny.wms.datasouce.net.NetServiceManager;
 import com.teeny.wms.datasouce.net.ResponseSubscriber;
 import com.teeny.wms.datasouce.net.service.WarehouseService;
 import com.teeny.wms.model.EmptyEntity;
+import com.teeny.wms.model.InventoryGoodsEntity;
 import com.teeny.wms.model.LotEntity;
 import com.teeny.wms.model.ResponseEntity;
 import com.teeny.wms.model.WarehouseGoodsEntity;
 import com.teeny.wms.model.request.WarehouseInventoryRequestEntity;
 import com.teeny.wms.page.common.activity.LotEditActivity;
 import com.teeny.wms.page.common.adapter.LotAdapter;
+import com.teeny.wms.page.common.fragment.InventoryHeaderFragment;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.widget.KeyValueTextView;
 
@@ -47,7 +49,7 @@ public class WarehouseFirstEditActivity extends ToolbarActivity implements Recyc
 
     private static final String KEY_DATA = "data";
 
-    public static void startActivity(Context context, WarehouseGoodsEntity entity) {
+    public static void startActivity(Context context, InventoryGoodsEntity entity) {
         Intent intent = new Intent();
         intent.setClass(context, WarehouseFirstEditActivity.class);
         intent.putExtra(KEY_DATA, entity);
@@ -62,7 +64,7 @@ public class WarehouseFirstEditActivity extends ToolbarActivity implements Recyc
     private int mDeletePosition = INVALID_POSITION;
     private AlertDialog mDeleteDialog;
 
-    private WarehouseGoodsEntity mEntity;
+    private InventoryGoodsEntity mEntity;
     private WarehouseService mService;
 
     @Override
@@ -152,7 +154,7 @@ public class WarehouseFirstEditActivity extends ToolbarActivity implements Recyc
         flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<EmptyEntity>(this) {
             @Override
             public void doNext(EmptyEntity data) {
-                getEventBus().post(new WarehouseFirstActivity.DataChangedFlag());
+                getEventBus().post(new InventoryHeaderFragment.DataChangedObserver());
             }
 
             @Override

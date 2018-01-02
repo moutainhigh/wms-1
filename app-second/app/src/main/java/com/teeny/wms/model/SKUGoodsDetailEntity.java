@@ -9,7 +9,7 @@ package com.teeny.wms.model;
  * @since 2017/8/24
  */
 
-public class SKUGoodsDetailEntity {
+public class SKUGoodsDetailEntity implements GoodsChoiceEntity{
     private int pId;
     private String goodsName;
     private String standard;//规格
@@ -49,8 +49,18 @@ public class SKUGoodsDetailEntity {
         this.manufacturers = manufacturers;
     }
 
+    @Override
+    public int getPId() {
+        return pId;
+    }
+
     public String getGoodsName() {
         return goodsName;
+    }
+
+    @Override
+    public String getSpecification() {
+        return standard;
     }
 
     public void setGoodsName(String goodsName) {

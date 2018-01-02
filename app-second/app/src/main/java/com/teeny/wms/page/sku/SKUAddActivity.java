@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.teeny.wms.R;
@@ -21,6 +25,7 @@ import com.teeny.wms.model.EmptyEntity;
 import com.teeny.wms.model.ResponseEntity;
 import com.teeny.wms.model.SKUGoodsDetailEntity;
 import com.teeny.wms.model.request.SKUAddRequestEntity;
+import com.teeny.wms.page.common.adapter.GoodsChoiceAdapter;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.pop.Toaster;
 import com.teeny.wms.util.Converter;
@@ -28,6 +33,7 @@ import com.teeny.wms.util.Validator;
 import com.teeny.wms.util.WindowUtils;
 import com.teeny.wms.widget.KeyValueEditView;
 
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Flowable;
@@ -198,17 +204,27 @@ public class SKUAddActivity extends ToolbarActivity implements DatePickerDialog.
         if (Validator.isEmpty(code)) {
             return;
         }
-        Flowable<ResponseEntity<SKUGoodsDetailEntity>> flowable = mService.getGoodsDetail(code);
-        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<SKUGoodsDetailEntity>(this) {
+        Flowable<ResponseEntity<List<SKUGoodsDetailEntity>>> flowable = mService.getGoodsDetail(code);
+        flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<List<SKUGoodsDetailEntity>>(this) {
             @Override
-            public void doNext(SKUGoodsDetailEntity data) {
-                if (data != null) {
-                    mNameView.setValue(data.getGoodsName());
-                    mNumberView.setValue(data.getNumber());
-                    mSpecificationView.setValue(data.getStandard());
-                    mUnitView.setValue(data.getUnit());
-                    mManufacturerView.setValue(data.getManufacturers());
-                    mId = data.getpId();
+            @SuppressWarnings("unchecked")
+            public void doNext(List<SKUGoodsDetailEntity> data) {
+                if (Validator.isNotEmpty(data)) {
+                    if (data.size() > 1) {
+                        final GoodsChoiceAdapter adapter = new GoodsChoiceAdapter(data);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogStyle_NoTitle);
+                        ListView listView = (ListView) LayoutInflater.from(getContext()).inflate(R.layout.common_list_view, null);
+                        listView.setAdapter(adapter);
+                        builder.setView(listView);
+                        AlertDialog dialog = builder.create();
+                        listView.setOnItemClickListener((parent, view, position, id) -> {
+                            setData((SKUGoodsDetailEntity) adapter.getItem(position));
+                            dialog.dismiss();
+                        });
+                        dialog.show();
+                        return;
+                    }
+                    setData(data.get(0));
                 } else {
                     Toaster.showToast("该商品码不存在.");
                 }
@@ -219,6 +235,15 @@ public class SKUAddActivity extends ToolbarActivity implements DatePickerDialog.
 
             }
         });
+    }
+
+    private void setData(SKUGoodsDetailEntity data) {
+        mNameView.setValue(data.getGoodsName());
+        mNumberView.setValue(data.getNumber());
+        mSpecificationView.setValue(data.getStandard());
+        mUnitView.setValue(data.getUnit());
+        mManufacturerView.setValue(data.getManufacturers());
+        mId = data.getpId();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.teeny.wms.page.common.helper;
 import android.support.v4.util.SparseArrayCompat;
 
 import com.teeny.wms.model.InventoryGoodsEntity;
+import com.teeny.wms.model.WarehouseGoodsEntity;
 import com.teeny.wms.util.ObjectUtils;
 import com.teeny.wms.util.Validator;
 import com.teeny.wms.util.log.Logger;
@@ -147,6 +148,31 @@ public abstract class InventoryHelper {
         }
         mDataHolder.clear();
         notifyChanged();
+    }
+
+    public void reverseAllStatus() {
+        List<InventoryGoodsEntity> list = getDataByType(0);
+        if (Validator.isEmpty(list)) {
+            return;
+        }
+        for (InventoryGoodsEntity entity : list) {
+            entity.setStatus(1);
+        }
+        mDataHolder.clear();
+        notifyChanged();
+    }
+
+    public List<Integer> getAchievableIds() {
+        List<InventoryGoodsEntity> list = getDataByType(0);
+        if (Validator.isEmpty(list)) {
+            return null;
+        }
+        int count = list.size();
+        List<Integer> ids = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            ids.add(list.get(i).getOriginalId());
+        }
+        return ids;
     }
 
     public void clear() {

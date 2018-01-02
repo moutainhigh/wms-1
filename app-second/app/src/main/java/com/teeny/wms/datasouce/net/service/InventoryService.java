@@ -1,5 +1,6 @@
 package com.teeny.wms.datasouce.net.service;
 
+import com.teeny.wms.model.EmptyEntity;
 import com.teeny.wms.model.InventoryCountEntity;
 import com.teeny.wms.model.InventoryGoodsWrapperEntity;
 import com.teeny.wms.model.InventoryInitializeEntity;
@@ -9,7 +10,9 @@ import com.teeny.wms.model.ResponseEntity;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -66,4 +69,13 @@ public interface InventoryService {
      */
     @GET("inventory/home_data")
     Flowable<ResponseEntity<InventoryGoodsWrapperEntity>> getList(@Query("id") int id, @Query("repositoryId") int repositoryId, @Query("areaId") int areaId, @Query("locationCode") String locationCode, @Query("type") int type);
+
+    /**
+     * 组完成
+     *
+     * @param ids 需要完成的id列表
+     * @return EmptyEntity
+     */
+    @POST("inventory/complete")
+    Flowable<ResponseEntity<EmptyEntity>> complete(@Body List<Integer> ids);
 }

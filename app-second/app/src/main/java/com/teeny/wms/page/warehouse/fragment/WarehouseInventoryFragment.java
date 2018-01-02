@@ -18,6 +18,7 @@ import com.teeny.wms.base.decoration.VerticalDecoration;
 import com.teeny.wms.datasouce.net.NetServiceManager;
 import com.teeny.wms.datasouce.net.ResponseSubscriber;
 import com.teeny.wms.datasouce.net.service.WarehouseService;
+import com.teeny.wms.model.InventoryGoodsEntity;
 import com.teeny.wms.model.ResponseEntity;
 import com.teeny.wms.model.WarehouseGoodsEntity;
 import com.teeny.wms.page.warehouse.WarehouseFirstEditActivity;
@@ -131,7 +132,7 @@ public class WarehouseInventoryFragment extends BaseFragment implements Recycler
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mOptionDialog.dismiss();
-        WarehouseGoodsEntity entity = mAdapter.getItem(mSelectPosition);
+        InventoryGoodsEntity entity = mAdapter.getItem(mSelectPosition);
         switch (mType) {
             case 0:
                 if (position == 0) {

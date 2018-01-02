@@ -48,7 +48,7 @@ public interface SKUService {
      * @return EmptyEntity
      */
     @GET("productsInventory/detail")
-    Flowable<ResponseEntity<SKUGoodsDetailEntity>> getGoodsDetail(@Query("goodsCode") String goodsCode);
+    Flowable<ResponseEntity<List<SKUGoodsDetailEntity>>> getGoodsDetail(@Query("goodsCode") String goodsCode);
 
     /**
      * 添加单品

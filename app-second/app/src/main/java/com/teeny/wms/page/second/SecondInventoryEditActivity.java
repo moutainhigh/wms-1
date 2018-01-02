@@ -20,12 +20,14 @@ import com.teeny.wms.datasouce.net.NetServiceManager;
 import com.teeny.wms.datasouce.net.ResponseSubscriber;
 import com.teeny.wms.datasouce.net.service.SecondInventoryService;
 import com.teeny.wms.model.EmptyEntity;
+import com.teeny.wms.model.InventoryGoodsEntity;
 import com.teeny.wms.model.LotEntity;
 import com.teeny.wms.model.ResponseEntity;
 import com.teeny.wms.model.SecondInventoryGoodsEntity;
 import com.teeny.wms.model.request.SecondInventoryRequestEntity;
 import com.teeny.wms.page.common.activity.LotEditActivity;
 import com.teeny.wms.page.common.adapter.LotAdapter;
+import com.teeny.wms.page.common.fragment.InventoryHeaderFragment;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.widget.KeyValueTextView;
 
@@ -47,7 +49,7 @@ public class SecondInventoryEditActivity extends ToolbarActivity implements Recy
 
     private static final String KEY_DATA = "data";
 
-    public static void startActivity(Context context, SecondInventoryGoodsEntity entity) {
+    public static void startActivity(Context context, InventoryGoodsEntity entity) {
         Intent intent = new Intent();
         intent.setClass(context, SecondInventoryEditActivity.class);
         intent.putExtra(KEY_DATA, entity);
@@ -62,7 +64,7 @@ public class SecondInventoryEditActivity extends ToolbarActivity implements Recy
     private int mDeletePosition = INVALID_POSITION;
     private AlertDialog mDeleteDialog;
 
-    private SecondInventoryGoodsEntity mEntity;
+    private InventoryGoodsEntity mEntity;
     private SecondInventoryService mService;
 
     @Override
@@ -152,7 +154,7 @@ public class SecondInventoryEditActivity extends ToolbarActivity implements Recy
         flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(new ResponseSubscriber<EmptyEntity>(this) {
             @Override
             public void doNext(EmptyEntity data) {
-                getEventBus().post(new SecondInventoryActivity.DataChangedFlag());
+                getEventBus().post(new InventoryHeaderFragment.DataChangedObserver());
             }
 
             @Override

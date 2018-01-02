@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.teeny.wms.R;
 import com.teeny.wms.base.RecyclerAdapter;
 import com.teeny.wms.base.RecyclerViewHolder;
+import com.teeny.wms.model.InventoryGoodsEntity;
 import com.teeny.wms.model.WarehouseGoodsEntity;
 import com.teeny.wms.util.Validator;
 import com.teeny.wms.widget.KeyValueTextView;
@@ -20,14 +21,14 @@ import java.util.List;
  * @since 2017/8/23
  */
 
-public class WarehouseGoodsAdapter extends RecyclerAdapter<WarehouseGoodsEntity> {
+public class WarehouseGoodsAdapter extends RecyclerAdapter<InventoryGoodsEntity> {
 
     /**
      * the constructor of this class.
      *
      * @param items the data source.
      */
-    public WarehouseGoodsAdapter(@Nullable List<WarehouseGoodsEntity> items) {
+    public WarehouseGoodsAdapter(@Nullable List<InventoryGoodsEntity> items) {
         super(items);
     }
 
@@ -37,7 +38,7 @@ public class WarehouseGoodsAdapter extends RecyclerAdapter<WarehouseGoodsEntity>
     }
 
     @Override
-    protected void onBindViewHolder(RecyclerViewHolder holder, int position, WarehouseGoodsEntity item) {
+    protected void onBindViewHolder(RecyclerViewHolder holder, int position, InventoryGoodsEntity item) {
         KeyValueTextView name = holder.get(R.id.warehouse_goods_name);
         KeyValueTextView allocation = holder.get(R.id.warehouse_goods_allocation);
         KeyValueTextView lot = holder.get(R.id.warehouse_goods_lot_number);

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.teeny.wms.page.common.activity.InventoryActivity;
+import com.teeny.wms.page.common.fragment.InventoryHeaderFragment;
+import com.teeny.wms.page.shop.fragment.ShopHeaderFragment;
 import com.teeny.wms.page.shop.fragment.ShopInventoryFragment;
 
 /**
@@ -22,6 +24,16 @@ public class ShopFirstActivity extends InventoryActivity {
         Intent intent = new Intent();
         intent.setClass(context, ShopFirstActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void startAdd(Context context, int key, String locationCode) {
+        ShopFirstAddActivity.startActivity(context, key, locationCode);
+    }
+
+    @Override
+    protected InventoryHeaderFragment createHeaderFragment() {
+        return ShopHeaderFragment.newInstance();
     }
 
     @Override

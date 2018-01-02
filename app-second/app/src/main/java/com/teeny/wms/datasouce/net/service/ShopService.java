@@ -72,7 +72,7 @@ public interface ShopService {
      * @return EmptyEntity
      */
     @GET("productsInventory/detail")
-    Flowable<ResponseEntity<SKUGoodsDetailEntity>> getGoodsDetail(@Query("goodsCode") String goodsCode);
+    Flowable<ResponseEntity<List<SKUGoodsDetailEntity>>> getGoodsDetail(@Query("goodsCode") String goodsCode);
 
     /**
      * 盘点新增

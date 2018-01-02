@@ -154,7 +154,6 @@ public abstract class InventoryHeaderFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Logger.e("ddddddddddd");
                 getHelper().clear();
                 mAreaTextView.setText("");
                 mAreaTextView.setAdapter(new SimpleAdapter<>(getContext()));
@@ -395,5 +394,14 @@ public abstract class InventoryHeaderFragment extends BaseFragment {
     }
 
     public static final class DataChangedObserver {
+    }
+
+
+    public Spinner getSpinner() {
+        return mSpinner;
+    }
+
+    public String getLocationCode() {
+        return mLocationTextView != null ? mLocationTextView.getText().toString() : "";
     }
 }
