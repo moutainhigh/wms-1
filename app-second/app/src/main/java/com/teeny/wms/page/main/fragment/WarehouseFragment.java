@@ -17,6 +17,7 @@ import android.widget.PopupWindow;
 
 import com.teeny.wms.R;
 import com.teeny.wms.base.RecyclerViewTouchListener;
+import com.teeny.wms.base.ToolbarActivity;
 import com.teeny.wms.base.ToolbarFragment;
 import com.teeny.wms.base.decoration.GridDecoration;
 import com.teeny.wms.datasouce.local.cache.UserManager;
@@ -26,6 +27,8 @@ import com.teeny.wms.datasouce.net.service.HomeService;
 import com.teeny.wms.model.FunctionEntity;
 import com.teeny.wms.model.KeyValueEntity;
 import com.teeny.wms.model.ResponseEntity;
+import com.teeny.wms.page.allot.AllotOrderAddActivity;
+import com.teeny.wms.page.barcode.BarcodeCollectActivity;
 import com.teeny.wms.page.receiving.ReceivingAcceptanceActivity;
 import com.teeny.wms.page.allot.AllotListActivity;
 import com.teeny.wms.page.document.QueryDocumentActivity;
@@ -65,6 +68,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class WarehouseFragment extends ToolbarFragment implements View.OnClickListener, RecyclerViewTouchListener.OnItemClickListener, ProgressView, TextWatcher {
     private static final String TAG = WarehouseFragment.class.getSimpleName();
+
+    private static final int INDEX_COUNT = 11;
 
     public static WarehouseFragment newInstance() {
         return new WarehouseFragment();
@@ -236,7 +241,7 @@ public class WarehouseFragment extends ToolbarFragment implements View.OnClickLi
     public List<FunctionEntity> createWarehouseData() {
         List<FunctionEntity> list = new ArrayList<>();
         String[] titles = getResources().getStringArray(R.array.function_array);
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < INDEX_COUNT; i++) {
             FunctionEntity entity = new FunctionEntity();
             entity.setTitle(titles[i]);
             switch (i) {
@@ -265,6 +270,12 @@ public class WarehouseFragment extends ToolbarFragment implements View.OnClickLi
                     entity.setIcon(R.mipmap.icon_warehouse_first);
                     break;
                 case 8:
+                    entity.setIcon(R.mipmap.icon_second_count);
+                    break;
+                case 9:
+                    entity.setIcon(R.mipmap.icon_second_count);
+                    break;
+                case 10:
                     entity.setIcon(R.mipmap.icon_second_count);
                     break;
 
@@ -303,6 +314,12 @@ public class WarehouseFragment extends ToolbarFragment implements View.OnClickLi
                 break;
             case 8:
                 SecondInventoryActivity.startActivity(getContext());
+                break;
+            case 9:
+                BarcodeCollectActivity.startActivity(getContext());
+                break;
+            case 10:
+                AllotOrderAddActivity.startActivity(getContext());
                 break;
         }
     }

@@ -160,5 +160,12 @@
     <string name="text_lh_format">零货(%1$s)</string>
     <string name="text_lh_amount">零货数量</string>
     <string name="text_location_add">货位新增</string>
+    <string name="text_barcode_collect">条码收集</string>
+    <string name="text_barcode_add">条码新增</string>
+    <string name="text_allot_order_add">调拨单新增</string>
+    <string name="text_goods_barcode">商品条码</string>
+    <string name="text_goods_search">商品搜索</string>
+    <string name="text_dosage_form">剂型</string>
+    <string name="text_approval_number">批准文号</string>
 
 </resources>

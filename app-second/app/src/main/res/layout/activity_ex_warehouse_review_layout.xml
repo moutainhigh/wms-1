@@ -19,7 +19,7 @@
 
             <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/ex_warehouse_review_scan_click"
-                style="@style/TextViewStyle.Dark.Scan"
+                style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white"

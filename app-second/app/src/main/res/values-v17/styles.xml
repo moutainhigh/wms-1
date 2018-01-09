@@ -12,7 +12,7 @@
         <item name="tabSelectedTextColor">@color/colorAccent</item>
     </style>
 
-    <style name="TextViewStyle.Dark.Scan">
+    <style name="TextViewStyle.Dark.RightDrawable.Scan">
         <item name="android:paddingStart">@dimen/dp_16</item>
         <item name="android:paddingLeft">@dimen/dp_16</item>
         <item name="android:paddingEnd">@dimen/dp_16</item>

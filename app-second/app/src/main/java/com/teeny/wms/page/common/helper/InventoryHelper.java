@@ -176,6 +176,7 @@ public abstract class InventoryHelper {
     }
 
     public void clear() {
+        Logger.e("sssssssssssssssssssssssssssssssssssssssssss");
         mDataList = new ArrayList<>();
         mOriginalData = null;
         mFinishedNumber = 0;

@@ -29,6 +29,7 @@ import com.teeny.wms.page.common.adapter.AllocationAdapter;
 import com.teeny.wms.page.document.controller.DocumentHelper;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.pop.Toaster;
+import com.teeny.wms.util.CollectionsUtils;
 import com.teeny.wms.util.Validator;
 import com.teeny.wms.widget.KeyValueTextView;
 
@@ -195,13 +196,20 @@ public class AllotListEditActivity extends ToolbarActivity implements DialogInte
             Toaster.showToast("请添加货位.");
             return;
         }
-        float amount = 0;
-        for (AllocationEntity entity : result) {
-            amount += entity.getAmount();
-        }
-        if (amount != mAmount) {
-            Toaster.showToast("数量不一致,请保证数量一致。");
-            return;
+        if (CollectionsUtils.sizeOf(result) == 1) {
+            AllocationEntity entity = result.get(0);
+            if (entity.getAmount() != mAmount) {
+                Toaster.showToast("数量不一致或不为0.");
+            }
+        } else {
+            float amount = 0;
+            for (AllocationEntity entity : result) {
+                amount += entity.getAmount();
+            }
+            if (amount != mAmount) {
+                Toaster.showToast("数量不一致,请保证数量一致.");
+                return;
+            }
         }
         AllotListRequestEntity entity = new AllotListRequestEntity();
         entity.setId(mEntity.getOriginalId());
@@ -228,5 +236,6 @@ public class AllotListEditActivity extends ToolbarActivity implements DialogInte
         }
     }
 
-    public static final class EditFlag{}
+    public static final class EditFlag {
+    }
 }

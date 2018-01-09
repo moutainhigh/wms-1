@@ -29,7 +29,7 @@
 
                 <android.support.v7.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/allot_list_document_scan"
-                    style="@style/TextViewStyle.Dark.Scan"
+                    style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                     android:completionThreshold="0"
                     android:dropDownWidth="match_parent"
                     android:hint="@string/text_document_scan"
@@ -42,7 +42,7 @@
 
                 <android.support.v7.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/allot_list_goods_scan"
-                    style="@style/TextViewStyle.Dark.Scan"
+                    style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                     android:completionThreshold="0"
                     android:dropDownWidth="match_parent"
                     android:hint="@string/text_goods_scan"
@@ -55,13 +55,13 @@
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/allot_list_export_goods_allocation"
-                    style="@style/TextViewStyle.Dark.Scan"
+                    style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                     android:hint="@string/text_export_goods_allocation"
                     android:imeOptions="actionNext" />
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/allot_list_import_goods_allocation"
-                    style="@style/TextViewStyle.Dark.Scan"
+                    style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                     android:hint="@string/text_import_goods_allocation"
                     android:imeOptions="actionDone" />
 

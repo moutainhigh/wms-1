@@ -50,7 +50,7 @@ public class SKUGoodsDetailEntity implements GoodsChoiceEntity{
     }
 
     @Override
-    public int getPId() {
+    public int getId() {
         return pId;
     }
 

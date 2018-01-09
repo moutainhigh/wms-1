@@ -10,6 +10,8 @@
         <item>门店初盘</item>
         <item>仓库初盘</item>
         <item>复盘</item>
+        <item>条码采集</item>
+        <item>新增调拨单</item>
     </string-array>
 
     <string-array name="sku_title">

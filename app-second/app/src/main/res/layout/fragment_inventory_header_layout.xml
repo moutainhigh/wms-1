@@ -59,12 +59,12 @@
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/inventory_header_allocation"
-        style="@style/TextViewStyle.Dark.Scan"
+        style="@style/TextViewStyle.Dark.RightDrawable.Scan"
         android:hint="@string/text_goods_allocation" />
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/inventory_header_goods"
-        style="@style/TextViewStyle.Dark.Scan"
+        style="@style/TextViewStyle.Dark.RightDrawable.Scan"
         android:hint="@string/text_goods" />
 
     <View

@@ -105,15 +105,18 @@
         <item name="android:textColor">@color/text_value</item>
     </style>
 
-    <style name="TextViewStyle.Dark.Scan">
+    <style name="TextViewStyle.Dark.RightDrawable">
         <item name="android:paddingLeft">@dimen/dp_16</item>
         <item name="android:paddingRight">@dimen/dp_16</item>
-        <item name="android:drawableEnd">@drawable/icon_vector_scan</item>
         <item name="android:background">@color/white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:lines">1</item>
         <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="TextViewStyle.Dark.RightDrawable.Scan">
+        <item name="android:drawableEnd">@drawable/icon_vector_scan</item>
     </style>
 
     <style name="PopupWindow" parent="android:Animation">

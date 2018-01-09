@@ -242,7 +242,35 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".page.review.RecipientActivity" />
+
+        <activity android:name=".page.review.RecipientActivity"
+            android:exported="false"
+            android:label="@string/text_recipient_choose"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <!--2017.12.28-->
+        <activity android:name=".page.barcode.BarcodeCollectActivity"
+            android:exported="false"
+            android:label="@string/text_barcode_collect"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity android:name=".page.barcode.BarcodeAddActivity"
+            android:exported="false"
+            android:label="@string/text_barcode_add"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity android:name=".page.allot.AllotOrderAddActivity"
+            android:exported="false"
+            android:label="@string/text_allot_order_add"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <service
             android:name=".service.PollingService"

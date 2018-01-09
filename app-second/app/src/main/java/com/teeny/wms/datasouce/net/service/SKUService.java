@@ -31,7 +31,7 @@ public interface SKUService {
      *
      * @return List<SKUEntity>
      */
-    @GET("productsInventory/getList")
+    @GET("productsInventory/list")
     Flowable<ResponseEntity<List<SKUEntity>>> getList(@Query("location") String location, @Query("barcode") String barcode);
 
     /**

@@ -30,13 +30,11 @@ public class PreferencesUtils {
     }
 
     public static void putInSharedPreferences(Object object, Preferences sp) throws IllegalAccessException {
-        Logger.e("putInSharedPreferences");
         if (object == null || sp == null) {
             Logger.e(String.valueOf(object == null) + "," + String.valueOf(sp == null));
             return;
         }
         List<Field> fields = ObjectUtils.getAllDeclaredFields(object);
-        Logger.e("fields.size() = " + String.valueOf(fields.size()));
         for (Field field : fields) {
             if(field.isSynthetic()){
                 continue;
@@ -53,7 +51,6 @@ public class PreferencesUtils {
     }
 
     public static void putInSharedPreferences(String key, String type, Object value, Preferences sp) {
-        Logger.e("key = " + key + ", type = " + type + ", value = " + value);
         switch (type) {
             case "int":
                 sp.putInt(key, (int) value);

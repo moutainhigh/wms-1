@@ -31,6 +31,7 @@ import com.teeny.wms.page.warehouse.WarehouseFirstAddActivity;
 import com.teeny.wms.pop.DialogFactory;
 import com.teeny.wms.pop.Toaster;
 import com.teeny.wms.util.Validator;
+import com.teeny.wms.util.log.Logger;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -178,6 +179,8 @@ public abstract class InventoryActivity extends TableViewPagerActivity implement
     public void onPageSelected(int position) {
         if (mHelper != null) {
             setCountValue(mHelper.getNumber(position));
+        }else {
+            Logger.e("mHelper == null");
         }
     }
 

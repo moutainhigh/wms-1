@@ -28,7 +28,7 @@
 
             <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/shelve_and_storage_order_number"
-                style="@style/TextViewStyle.Dark.Scan"
+                style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@null"
@@ -47,12 +47,12 @@
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/shelve_and_storage_goods_allocation"
-                style="@style/TextViewStyle.Dark.Scan"
+                style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                 android:hint="@string/text_goods_allocation" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/shelve_and_storage_goods"
-                style="@style/TextViewStyle.Dark.Scan"
+                style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                 android:hint="@string/text_goods" />
 
             <View

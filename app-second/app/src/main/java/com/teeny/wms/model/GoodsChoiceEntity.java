@@ -10,7 +10,7 @@ package com.teeny.wms.model;
  */
 
 public interface GoodsChoiceEntity {
-    int getPId();
+    int getId();
     String getGoodsName();
     String getSpecification();
     String getManufacturers();

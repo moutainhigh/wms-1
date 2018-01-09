@@ -107,7 +107,12 @@ public class SKUCheckActivity extends ToolbarActivity implements RecyclerViewTou
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new SKUAdapter(null);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
+        manager.setSmoothScrollbarEnabled(true);
+        manager.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager(manager);
         VerticalDecoration decoration = new VerticalDecoration(this.getContext());
         decoration.setHeight(this.getContext().getResources().getDimensionPixelSize(R.dimen.dp_16));
         decoration.setNeedDraw(false);
@@ -187,7 +192,11 @@ public class SKUCheckActivity extends ToolbarActivity implements RecyclerViewTou
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDataAdded(DataAddedFlag flag) {
-        obtainData();
+        String location = mAllocationTextView.getText().toString();
+        String barcode = mGoodsTextView.getText().toString();
+        if (Validator.isNotEmpty(location) || Validator.isNotEmpty(barcode)){
+            obtainData();
+        }
     }
 
     public static final class DataChangedFlag {

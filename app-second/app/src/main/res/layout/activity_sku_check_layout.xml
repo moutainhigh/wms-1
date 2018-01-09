@@ -24,13 +24,13 @@
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/sku_check_goods"
-                style="@style/TextViewStyle.Dark.Scan"
+                style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                 android:hint="@string/text_goods"
                 android:imeOptions="actionSearch" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/sku_check_goods_allocation"
-                style="@style/TextViewStyle.Dark.Scan"
+                style="@style/TextViewStyle.Dark.RightDrawable.Scan"
                 android:hint="@string/text_goods_allocation"
                 android:imeOptions="actionSearch" />
         </LinearLayout>

@@ -142,9 +142,11 @@ public abstract class InventoryHeaderFragment extends BaseFragment {
             count();
         });
         mRepositoryTextView.addTextChangedListener(new TextWatcher() {
+            private boolean mIsClear;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                mIsClear = s.length() != 0 && count != 0;
             }
 
             @Override
@@ -154,7 +156,9 @@ public abstract class InventoryHeaderFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                getHelper().clear();
+                if (mIsClear) {
+                    getHelper().clear();
+                }
                 mAreaTextView.setText("");
                 mAreaTextView.setAdapter(new SimpleAdapter<>(getContext()));
                 mSelectedArea = null;
@@ -183,9 +187,11 @@ public abstract class InventoryHeaderFragment extends BaseFragment {
             count();
         });
         mAreaTextView.addTextChangedListener(new TextWatcher() {
+            private boolean mIsClear;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                mIsClear = s.length() != 0 && count != 0;
             }
 
             @Override
@@ -195,7 +201,9 @@ public abstract class InventoryHeaderFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                getHelper().clear();
+                if (mIsClear) {
+                    getHelper().clear();
+                }
                 mLocationTextView.setText("");
                 mGoodsTextView.setText("");
                 if (mSelectedArea == null || !mSelectedArea.getName().equals(s.toString())) {
@@ -214,9 +222,11 @@ public abstract class InventoryHeaderFragment extends BaseFragment {
         mLocationTextView = findView(R.id.inventory_header_allocation);
         mLocationTextView.setOnFocusChangeListener(this::onFocusChanged);
         mLocationTextView.addTextChangedListener(new TextWatcher() {
+            private boolean mIsClear;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                mIsClear = s.length() != 0 && count != 0;
             }
 
             @Override
@@ -227,7 +237,9 @@ public abstract class InventoryHeaderFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (Validator.isEmpty(s)) {
-                    getHelper().clear();
+                    if (mIsClear) {
+                        getHelper().clear();
+                    }
                 } else {
                     obtainDetailData();
                 }

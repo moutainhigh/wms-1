@@ -24,4 +24,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     public <T extends View> T get(@IdRes int resId) {
         return mViewHolder.get(resId);
     }
+
+    public View getItemView() {
+        return mViewHolder.getItemView();
+    }
 }
